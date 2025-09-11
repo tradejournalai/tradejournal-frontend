@@ -1,0 +1,415 @@
+/* PricingCard.module.css */
+.pricingPageContainer {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    min-height: 100vh;
+}
+
+.pricingHero {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricingCards {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    padding: 3rem 1rem;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    min-height: auto;
+}
+
+.pricingCard {
+    background-color: var(--landing-background);
+    color: var(--primary-dark-text);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.pricingCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.cardHeader {
+    margin-bottom: 1.5rem;
+}
+
+.cardHeader h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-dark-text);
+    font-weight: 700;
+}
+
+.cardHeader p {
+    font-size: 1rem;
+    opacity: 0.8;
+    color: var(--secondary-text);
+}
+
+.priceContainer {
+    margin-bottom: 1.2rem;
+}
+
+.price {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 0.5rem;
+}
+
+.currency {
+    font-size: 1.8rem;
+    margin-right: 0.1rem;
+    line-height: 1;
+    font-weight: 600;
+    color: var(--primary-dark-text);
+}
+
+.amount {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--primary-dark-text);
+}
+
+.period {
+    align-self: flex-end;
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin-left: 0.25rem;
+    margin-bottom: 0.6rem;
+    color: var(--secondary-text);
+}
+
+.discountSection {
+    margin-top: 0.8rem;
+}
+
+.originalPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.strikethrough {
+    font-size: 1.2rem;
+    color: var(--secondary-text);
+    text-decoration: line-through;
+    font-weight: 500;
+}
+
+.saveBadge {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.effectivePrice {
+    font-size: 1rem;
+    color: var(--primary-dark-text);
+    font-weight: 600;
+    text-align: center;
+}
+
+.trialNotice {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 10px 16px;
+    margin: 16px 0;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.features li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.features li:before {
+    content: "✓";
+    margin-right: 0.75rem;
+    color: var(--primary-text);
+    font-weight: bold;
+}
+
+.buttonContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+    flex-shrink: 0;
+}
+
+.ctaButton {
+    background-color: var(--primary-dark-text);
+    color: var(--landing-background);
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.ctaButton:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.activeButton {
+    background: #10b981 !important;
+    color: white !important;
+    cursor: default !important;
+    opacity: 0.9;
+}
+
+.activeButton:hover {
+    background: #10b981 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.subscriptionInfo {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.planInfo {
+    font-size: 14px;
+    margin: 8px 0;
+}
+
+.expiryInfo {
+    font-size: 13px;
+    margin: 6px 0;
+    color: #666;
+}
+
+.expiredText {
+    color: #ef4444;
+}
+
+.timeInfo {
+    font-size: 13px;
+    margin: 6px 0;
+    color: #666;
+}
+
+.validTime {
+    color: var(--dashboard-green-color, #10b981) !important;
+    font-weight: 600;
+}
+
+.expiredTime {
+    color: var(--dashboard-red-color, #ef4444) !important;
+    font-weight: 600;
+}
+
+/* Highlighted Card Styles */
+.highlightedCard {
+    position: relative;
+    transform: scale(1.03);
+    box-shadow: 0 15px 35px rgba(76, 175, 80, 0.15);
+    border: 1px solid var(--primary-text);
+}
+
+.highlightedCard::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--primary-text), transparent);
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-text);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.pageTitle {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-dark-text);
+    font-weight: 800;
+}
+
+.pageSubtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    color: var(--secondary-text);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pricingCards {
+        padding: 2rem 1rem;
+        gap: 25px;
+    }
+    
+    .highlightedCard {
+        transform: none;
+        order: -1;
+    }
+    
+    .badge {
+        font-size: 12px;
+        padding: 6px 16px;
+    }
+    
+    .cardHeader h3 {
+        font-size: 1.6rem;
+    }
+    
+    .amount {
+        font-size: 3rem;
+    }
+    
+    .features li {
+        font-size: 14px;
+    }
+    
+    .pageTitle {
+        font-size: 2rem;
+    }
+    
+    .pageSubtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricingCard {
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .trialNotice {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+    
+    .buttonContainer {
+        min-height: 55px;
+        margin-top: 15px;
+    }
+    
+    .ctaButton {
+        padding: 0.9rem 1.5rem;
+        font-size: 14px;
+    }
+    
+    .amount {
+        font-size: 2.7rem;
+    }
+    
+    .currency {
+        font-size: 1.5rem;
+    }
+    
+    .period {
+        font-size: 1rem;
+    }
+}
+
+/* Add to your existing CSS */
+
+.annualPlanCard {
+  border-color: var(--primary-text) !important;
+}
+
+.limitedTimeBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-text);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: max-content;
+}
+
+/* Adjust the existing badge position */
+.highlightedCard .badge {
+  top: 30px; /* Moved down to make space for the new badge */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .limitedTimeBadge {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+  
+  .highlightedCard .badge {
+    top: 28px;
+  }
+}

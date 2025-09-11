@@ -1,0 +1,138 @@
+/* src/components/MacBookMockup/MacBookMockup.module.css */
+
+.deviceContainer {
+  position: relative;
+  width: 90%;
+  /* Use a max-width that is relative to the viewport for scalability */
+  max-width: 80vw; 
+  /* A slightly taller aspect ratio feels more like a laptop */
+  aspect-ratio: 16 / 10.5;
+  margin: 0 auto;
+  padding: 2vw;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1200px) {
+  .deviceContainer {
+    max-width: 900px; /* On very large screens, cap the size */
+  }
+}
+
+.macbook {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* --- The Screen (Top Part) --- */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 95%;
+    background: #1a1a1a;
+    border-radius: 1.5vw;
+    border-bottom-left-radius: .8vw;
+    border-bottom-right-radius: .8vw;
+    border: 0.12vw solid #4a4a4a;
+    box-shadow: 0 0 0 0.1vw #000, 0 0.4vw 0.8vw rgba(0, 0, 0, 0.4);
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+.bezel {
+  width: 98%;
+  height: 96%;
+  position: relative;
+  border-radius: 1vw; /* Inner screen corner radius */
+  overflow: hidden;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #000;
+}
+
+/* --- The Notch and Camera --- */
+.notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15%;
+  height: 4%;
+  background: #1a1a1a;
+  border-radius: 0 0 1.2vw 1.2vw;
+}
+
+.camera {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10%;
+  padding-bottom: 10%; /* Makes a perfect circle */
+  height: 0;
+  background: #000;
+  border: 0.1vw solid #333;
+  border-radius: 50%;
+}
+
+.base {
+  position: absolute;
+  bottom: 1.5%;
+  left: -5%;
+  width: 110%;
+  height: 4%;
+  background: linear-gradient(to bottom, #f0f0f0, #a4a4a4);
+  border-radius: 0 0 6vw 6vw;
+  box-shadow: 
+    inset 0 -0.1vw 0.2vw rgba(0, 0, 0, 0.3),
+    0 0.2vw 0.4vw rgba(0, 0, 0, 0.3);
+}
+
+.indent {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18%;
+  height: 25%;
+  background: #c9c9c9;
+  border-radius: 0.4vw;
+  box-shadow: inset 0 0.1vw 0.1vw rgba(0, 0, 0, 0.2);
+}
+
+/* --- Realistic Effects --- */
+.reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  pointer-events: none;
+}
+
+.shadow {
+  position: absolute;
+  bottom: 1.5%;
+  left: 10%;
+  width: 80%;
+  height: 4%;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  filter: blur(2vw);
+  z-index: 1; /* Sits behind the macbook */
+}

@@ -1,0 +1,139 @@
+.footer{
+    padding: 64px 0;
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+}
+
+.logo{
+    font-weight: 600;
+    font-size: 32px;
+    letter-spacing: -.8px;
+    color: var(--landing-background);
+}
+
+.footerContent{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 80px;
+}
+
+.footerItemsHead{
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--landing-background);
+}
+
+
+.footerItems {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start; 
+}
+
+.footerItemsText {
+    font-size: 14px;
+    color: var(--landing-background);
+    opacity: .7;
+    position: relative; 
+    padding-bottom: 2px; 
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.footerItemsText:hover {
+    opacity: 1;
+}
+
+.footerItemsText::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--landing-background);
+    transition: width 0.3s ease-out;
+}
+
+.footerItemsText:hover::after {
+    width: 100%;
+}
+
+
+.footerWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 40px;
+    padding-bottom: 20px;
+}
+
+.footerBottomText{
+    font-size: 14px;
+    color: var(--landing-background);
+    opacity: .7;
+}
+
+@media(max-width: 1256px){
+    .footerContent{
+        gap: 40px;
+    }
+}
+
+@media(max-width: 1135px){
+    .footerContent{
+        gap: 20px;
+    }
+}
+
+@media(max-width: 1076px){
+    .footerContent{
+        grid-template-columns: 1fr 1fr;
+        row-gap: 40px;
+    }
+}
+
+@media(max-width: 687px){
+    .footer{
+        flex-direction: column;
+    }
+}
+
+
+.footerLogo{
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.socials a {
+  color: var(--landing-background);
+  opacity: 0.7;
+  font-size: 18px; 
+  transition: opacity 0.2s ease-in-out;
+  text-decoration: none; 
+}
+
+.socials a:hover {
+  opacity: 1; 
+}
+
+
+.email{
+    color: var(--landing-background);
+    font-weight: 300;
+    font-size: 16px;
+}
+
+
+.version{
+    font-size: 12px;
+}

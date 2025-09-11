@@ -1,0 +1,209 @@
+import { Link } from 'react-router-dom';
+import { FilledButton, UnfilledButton } from '../Button/Button';
+import Styles from '../Navbar/Navbar.module.css';
+import { useState, useEffect, useRef } from 'react';
+import { FiMenu, FiX, FiLogOut, FiUpload } from 'react-icons/fi';
+import { FaCrown, FaLeaf } from "react-icons/fa";
+import { useAuth } from '../../hooks/useAuth';
+import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
+
+interface User {
+  username: string;
+  email?: string;
+  avatar?: string;
+  subscription?: {
+    plan: string;
+  };
+}
+
+interface UserDrawerProps {
+  user: User | null;
+  isOpen: boolean;
+  onClose: () => void;
+  logout: () => void;
+}
+
+const UserDrawer = ({ user, isOpen, onClose, logout }: UserDrawerProps) => {
+  const isPro = user?.subscription?.plan === 'pro';
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { updateAvatar } = useAuth();
+
+  const handleAvatarSelect = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      await updateAvatar(file);
+      onClose(); 
+    } catch {
+      alert("Failed to update avatar.");
+    }
+  };
+  
+  return (
+    <>
+      {isOpen && <div className={Styles.overlay} onClick={e => { if (e.target === e.currentTarget) onClose(); }} />}
+
+      <div className={`${Styles.dropdownContainer} ${isOpen ? Styles.open : ''}`} onClick={(e) => e.stopPropagation()}>
+
+        <div className={Styles.dropdownHeader}>
+          <div className={Styles.imgContainer}>
+            <img 
+              src={user?.avatar || PlaceholderImage} 
+              alt={user?.username || 'User'} 
+              className={Styles.dropdownAvatar}
+            />
+          </div>
+          <div className={Styles.dropdownUserInfo}>
+            <h3 className={Styles.dropdownName}>{user?.username || 'User'}</h3>
+            <p className={Styles.dropdownEmail}>{user?.email || 'No email provided'}</p>
+          </div>
+        </div>
+        <div className={Styles.dropdownDivider}></div>
+        <div className={Styles.dropdownItem}>
+          {isPro ? (
+            <>
+              <FaCrown className={`${Styles.dropdownIcon} ${Styles.proIcon}`} />
+              <span className={Styles.proText}>Pro Plan</span>
+            </>
+          ) : (
+            <>
+              <FaLeaf className={`${Styles.dropdownIcon} ${Styles.freeIcon}`} />
+              <span>Free Plan</span>
+            </>
+          )}
+        </div>
+        <div className={Styles.dropdownDivider}></div>
+
+        <div
+          className={`${Styles.dropdownItem} ${Styles.dropdownItemHover}`}
+          onClick={handleAvatarSelect}
+        >
+          <FiUpload className={Styles.dropdownIcon} />
+          <span>Profile Image</span>
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleAvatarChange}
+          />
+        </div>
+
+        <div className={Styles.dropdownDivider}></div>
+        <button 
+          className={Styles.dropdownLogout} 
+          onClick={() => {
+            logout();
+            onClose();
+          }}
+        >
+          <FiLogOut className={Styles.dropdownIcon} />
+          <span>Log Out</span>
+        </button>
+      </div>
+    </>
+  );
+};
+
+const PricingNav = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
+  const { user, logout } = useAuth();
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleProfile = () => {
+    setIsProfileOpen(!isProfileOpen);
+  };
+
+  useEffect(() => {
+    if (isMenuOpen || isProfileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen, isProfileOpen]);
+
+  return (
+    <div className={Styles.navbar}>
+      <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
+      
+      <div className={Styles.navLinks}>
+        <a href="/" className={Styles.navLink}>Home</a>
+        <a href="#pricing" className={Styles.navLink}>Pricing</a>
+      </div>
+      
+      <div className={Styles.buttons}>
+        {!user ? (
+          <>
+            <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
+            <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
+          </>
+        ) : (
+          <>
+            <p className={Styles.username}>{user.username}</p>
+            <div className={Styles.avatarLink} onClick={toggleProfile}>
+              <img
+                src={user.avatar || PlaceholderImage}
+                alt={user.username}
+                className={Styles.avatarImg}
+              />
+            </div>
+          </>
+        )}
+      </div>
+
+      <button className={Styles.menuButton} onClick={toggleMenu}>
+        {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      </button>
+      
+      <div className={`${Styles.mobileMenuContainer} ${isMenuOpen ? Styles.mobileMenuOpen : ''}`}>
+        <div className={Styles.mobileNavLinks}>
+          <a href="/" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Home</a>
+          <a href="#pricing" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Pricing</a>
+          <a href="#faqs" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Faqs</a>
+        </div>
+        
+        <div className={Styles.mobileButtons}>
+          {!user ? (
+            <>
+              <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
+              <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
+            </>
+          ) : (
+            <div className={Styles.avatarLink} onClick={() => {
+              toggleProfile();
+              setIsMenuOpen(false);
+            }}>
+              <img
+                src={user.avatar || PlaceholderImage}
+                alt={user.username}
+                className={Styles.avatarImg}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      <UserDrawer 
+        user={user}
+        isOpen={isProfileOpen}
+        onClose={toggleProfile}
+        logout={logout}
+      />
+    </div>
+  );
+};
+
+export default PricingNav;
+export {UserDrawer}

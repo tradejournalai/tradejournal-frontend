@@ -1,0 +1,308 @@
+:root {
+  --dashboard-primary-background: #FCFCFC;
+  --dashboard-right-background: #F9F9F9;
+  --dashboard-primary-text: #202020;
+  --dashboard-secondary-text: #646464;
+  --dashboard-icons-color: #646464;
+  --dashboard-buttons-hover: #F0F0F0;
+  --dashboard-borders: #E8E8E8;
+  --dashboard-userIcon-color: #0D9888;
+  --dashboard-green-color: #008F75;
+  --dashboard-red-color: #D64D4D;
+  --dashboard-blue-color: #618bff;
+}
+
+
+.container {
+    width: 100%;
+    max-width: 950px;
+    margin: 30px auto;
+    padding: 0 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--dashboard-primary-text);
+}
+
+
+.header {
+    margin-bottom: 25px;
+}
+.header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+}
+.header p {
+    font-size: 15px;
+    color: var(--dashboard-secondary-text);
+    margin-top: 4px;
+}
+
+
+.controlBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: var(--dashboard-primary-background);
+    border: 1px solid var(--dashboard-borders);
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+
+.periodSelector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.periodLabel {
+    color: var(--dashboard-secondary-text);
+    font-weight: 500;
+}
+.periodButton {
+    background-color: var(--dashboard-right-background);
+    color: var(--dashboard-secondary-text);
+    border: 1px solid var(--dashboard-borders);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+}
+.periodButton:hover {
+    background-color: var(--dashboard-buttons-hover);
+}
+.periodButton.active {
+    background-color: var(--dashboard-blue-color);
+    color: white;
+    border-color: var(--dashboard-blue-color);
+}
+.analyzeButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--dashboard-userIcon-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.analyzeButton:hover {
+    background-color: #0b7e6e;
+}
+.analyzeButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+.resultArea { margin-top: 30px; }
+.pageLoader, .error { text-align: center; font-size: 16px; padding: 50px; }
+.error { color: var(--dashboard-red-color); }
+
+
+.loaderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 50px;
+    color: var(--dashboard-secondary-text);
+}
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #E8E8E8;
+    border-top-color: var(--dashboard-blue-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+
+.resultsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.resultCard {
+    background-color: var(--dashboard-primary-background);
+    border: 1px solid var(--dashboard-borders);
+    border-radius: 12px;
+    padding: 24px;
+}
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dashboard-primary-text);
+    margin: 0 0 20px 0;
+}
+.cardContent p {
+    color: var(--dashboard-secondary-text);
+    line-height: 1.6;
+}
+
+
+.confidenceContainer { margin-top: 20px; }
+.confidenceContainer span { font-size: 14px; color: var(--dashboard-secondary-text); }
+.confidenceBar {
+    width: 100%; height: 8px; background-color: #E8E8E8;
+    border-radius: 4px; margin: 8px 0; overflow: hidden;
+}
+.confidenceFill {
+    height: 100%; background-color: var(--dashboard-blue-color);
+    border-radius: 4px; transition: width 0.5s ease-in-out;
+}
+
+
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+}
+.metricItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: var(--dashboard-right-background);
+}
+.metricLabel { color: var(--dashboard-secondary-text); }
+.metricValue { font-weight: 600; }
+.positive { color: var(--dashboard-green-color); }
+.negative { color: var(--dashboard-red-color); }
+.neutral { color: var(--dashboard-primary-text); }
+
+
+.list {
+    list-style-type: none;
+    padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 12px;
+}
+.list li {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+.strengthItem {
+    background-color: #e6f4f2;
+    color: var(--dashboard-green-color);
+    border-color: #b3e0d9;
+}
+.weaknessItem {
+    background-color: #faeded;
+    color: var(--dashboard-red-color);
+    border-color: #f3c7c7;
+}
+.adviceItem {
+    background-color: #eef2ff; 
+    color: #4338ca;
+    border-color: #c7d2fe;
+}
+.positiveIcon { color: var(--dashboard-green-color); }
+.negativeIcon { color: var(--dashboard-red-color); }
+.adviceIcon { color: #4338ca; }
+
+
+@media (max-width: 867px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  /* This is the key fix for the control box */
+  .controlBox {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: stretch; /* Make children full width */
+    gap: 16px;
+  }
+
+  .periodSelector {
+    flex-direction: column; /* Stack label and buttons vertically */
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .periodLabel {
+    text-align: center; /* Center the label text */
+  }
+
+  .periodButtonContainer {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 10px;
+    flex-wrap: wrap; /* Allow buttons to wrap if needed */
+  }
+
+  .analyzeButton {
+    width: 100%; /* Make the analyze button full width */
+    justify-content: center; /* Center the text and icon inside */
+  }
+
+  .resultCard {
+    padding: 16px;
+  }
+
+  .cardHeader {
+    font-size: 16px;
+  }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 20px;
+  }
+  .header p {
+    font-size: 14px;
+  }
+
+  .periodButton {
+    padding: 8px 12px;
+    font-size: 13px;
+    flex-grow: 1; /* Allow buttons to take up equal space */
+  }
+
+  .analyzeButton {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .list li {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .metricsGrid {
+    /* Ensure it remains single column on very small screens */
+    grid-template-columns: 1fr;
+  }
+
+  .metricItem {
+    flex-direction: column; /* Stack metric label and value */
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 1083px){
+  .controlBox{
+    flex-direction: column;
+    gap: 10px;
+    align-items: start;
+  }
+}

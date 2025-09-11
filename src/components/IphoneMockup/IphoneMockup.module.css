@@ -1,0 +1,108 @@
+/* src/components/IphoneMockup/IphoneMockup.module.css */
+
+.deviceContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5vh 0; /* Changed to vh for consistency */
+  box-sizing: border-box;
+}
+
+.iphone {
+  position: relative;
+  /* Use a viewport-based width and aspect ratio */
+  width: 50vw;
+  max-width: 320px;
+  aspect-ratio: 16 / 32;
+  border-radius: 40px;
+  background-color: #000;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 10px 20px rgba(0, 0, 0, 0.2),
+    0 20px 40px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  overflow: hidden;
+}
+
+.chassis {
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background-color: #1a1a1a;
+  border-radius: 38px;
+  overflow: hidden;
+}
+
+/* --- The Screen --- */
+.screen {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  overflow: hidden;
+  position: relative;
+  /* Consistent with chassis */
+  border-radius: 9%; 
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- The Dynamic Island --- */
+.dynamicIsland {
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 38%;
+  height: 4.5%;
+  background-color: #000;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+/* --- Side Buttons --- */
+.sideButtons {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.sideButton {
+  position: absolute;
+  background-color: #333;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.silentSwitch {
+  top: 15%;
+  left: -4px;
+  width: 4px;
+  height: 25px;
+}
+
+.volumeUp {
+  top: 22%;
+  left: -4px;
+  width: 4px;
+  height: 50px;
+}
+
+.volumeDown {
+  top: 31%;
+  left: -4px;
+  width: 4px;
+  height: 50px;
+}
+
+.power {
+  top: 25%;
+  right: -4px;
+  width: 4px;
+  height: 80px;
+}

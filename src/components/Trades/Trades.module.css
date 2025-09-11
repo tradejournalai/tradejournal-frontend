@@ -1,0 +1,75 @@
+
+.tradeContainer{
+    padding: 0 20px;
+    width: 100%;
+    /* height: 100%; */
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    background-color: var(--dashboard-right-background);
+
+}
+
+.tradeContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.trades{
+    border: 1px solid var(--dashboard-borders);
+}
+
+
+.tradesHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+}
+
+.allTrades{
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dashboard-primary-text);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--dashboard-primary-text);
+}
+
+.pagination button {
+    background-color: var(--dashboard-userIcon-color);
+    border: none;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.17s;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.pagination button:disabled {
+    background-color: var(--dashboard-buttons-hover);
+    color: var(--dashboard-icons-color);
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px){
+    .tradeContainer{
+        padding: 0 10px;
+    }
+}
+
+.loadingTrades{
+    color: var(--dashboard-primary-text);
+}
+

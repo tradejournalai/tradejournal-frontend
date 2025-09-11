@@ -1,0 +1,600 @@
+.calendarPage {
+  width: 100%;
+  background: var(--dashboard-right-background);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.statCardsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.statCard {
+  padding: 20px;
+  background-color: var(--dashboard-primary-background);
+  border-radius: 8px;
+  border: 1px solid var(--dashboard-borders);
+  min-width: 160px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+}
+
+.stateCardData {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.statCardLabel {
+  font-size: 14px;
+  color: var(--dashboard-primary-text);
+  font-weight: 400;
+}
+
+.statCardDeltaUp {
+  color: var(--dashboard-green-color);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+  display: block;
+}
+
+.statCardDeltaDown {
+  color: var(--dashboard-red-color);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+  display: block;
+}
+
+.statCardValuePos {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dashboard-green-color);
+}
+
+.statCardValueNeg {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dashboard-red-color);
+}
+
+.monthSwitcherRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.monthBtn {
+  background: var(--dashboard-primary-background);
+  color: var(--dashboard-primary-text);
+  border: 1px solid var(--dashboard-borders);
+  border-radius: 6px;
+  padding: 4px 16px;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.monthBtn:active {
+  background: #ededed;
+}
+
+.monthDisplay {
+  color: var(--dashboard-primary-text);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.calendarGrid {
+  width: 100%;
+  background-color: var(--dashboard-primary-background);
+  border-radius: 8px;
+  border: 1px solid var(--dashboard-borders);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendarWeekHeader,
+.calendarWeek {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendarWeekHeader {
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: var(--dashboard-primary-text);
+  padding: 0 2px;
+  font-weight: 600;
+  gap: 4px;
+}
+
+.calendarWeekday {
+  border: 1px solid var(--dashboard-borders);
+  padding: 8px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.calendarDay {
+  min-height: 88px;
+  min-width: 52px;
+  box-sizing: border-box;
+  background: var(--dashboard-right-background);
+  color: var(--dashboard-primary-text);
+  border-radius: 8px;
+  margin: 2px;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 16px;
+  position: relative;
+  transition: box-shadow .13s;
+  border: 1px solid var(--dashboard-borders);
+}
+
+.calendarDay:hover {
+  border: 1.5px solid rgb(174, 174, 174);
+}
+
+.selectedDay {
+  border: 1px solid var(--dashboard-borders);
+  background: var(--dashboard-primary-background);
+}
+
+.positiveDay {
+  background: var(--dashboard-positive-background);
+}
+
+.negativeDay {
+  background: var(--dashboard-negative-background);
+}
+
+.neutralDay {
+  background: var(--dashboard-neutral-background);
+}
+
+.negativeDay:hover {
+  border: 1.5px solid var(--dashboard-red-color);
+}
+
+.positiveDay:hover {
+  border: 1.5px solid var(--dashboard-green-color);
+}
+
+.dayPnl {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dashboard-green-color);
+}
+
+.negativeDay .dayPnl {
+  color: var(--dashboard-red-color);
+}
+
+.dayTradeCount {
+  font-size: 12px;
+  color: var(--dashboard-primary-text);
+}
+
+/* Popup Styles - Fixed borders and spacing */
+.popupBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.09);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popupBox {
+  background-color: var(--dashboard-primary-background);
+  border-radius: 12px;
+  border: 1px solid var(--dashboard-borders);
+  min-width: 310px;
+  max-width: 97vw;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dashboard-primary-text);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.popupCloseBtn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 18px;
+  color: #555;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popupHeading {
+  font-size: 18px;
+  color: var(--dashboard-primary-text);
+  font-weight: 600;
+  margin: 0;
+}
+
+.popupStatCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.popupMiniCard {
+  background: var(--dashboard-primary-background);
+  border: 1px solid var(--dashboard-borders);
+  border-radius: 8px;
+  min-width: 100px;
+  flex: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px;
+  min-height: 60px;
+}
+
+.popupMiniCardLabel {
+  color: var(--dashboard-secondary-text);
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
+.popupMiniCardValue,
+.popupMiniCardValueGreen,
+.popupMiniCardValueRed {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.popupMiniCardValueGreen {
+  color: var(--dashboard-green-color);
+}
+
+.popupMiniCardValueRed {
+  color: var(--dashboard-red-color);
+}
+
+.popupMiniCardValue {
+  color: var(--dashboard-primary-text);
+}
+
+.popupTradeListContainer {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.popupTradeListScrollable {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 5px;
+  margin-right: -5px;
+  max-height: 40vh;
+}
+
+.popupTradeList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popupTradeCard {
+  background: var(--dashboard-primary-background);
+  border: 1px solid var(--dashboard-borders);
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s;
+  overflow: hidden;
+}
+
+.tradeTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid var(--dashboard-borders);
+  background: var(--dashboard-primary-background);
+}
+
+.tradeSymbolContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tradeSymbol {
+  font-weight: 600;
+  color: var(--dashboard-primary-text);
+  font-size: 14px;
+}
+
+.tradeDirectionLong {
+  color: var(--dashboard-green-color);
+  font-weight: 600;
+  font-size: 12px;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+.tradeDirectionShort {
+  color: var(--dashboard-red-color);
+  font-weight: 600;
+  font-size: 12px;
+  background: rgba(244, 67, 54, 0.1);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+.tradeDate {
+  color: var(--dashboard-secondary-text);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.tradeDetailsGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.tradeDetails {
+  padding: 10px 12px;
+  border-right: 1px solid var(--dashboard-borders);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tradeDetails:last-child {
+  border-right: none;
+}
+
+.detailLabel {
+  color: var(--dashboard-secondary-text);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.tradeDetailValue {
+  color: var(--dashboard-primary-text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.pnlPositive {
+  color: var(--dashboard-green-color);
+  font-weight: 600;
+}
+
+.pnlNegative {
+  color: var(--dashboard-red-color);
+  font-weight: 600;
+}
+
+.tradePopupInfo {
+  color: var(--dashboard-primary-text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Scrollbar styling */
+.popupTradeListScrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.popupTradeListScrollable::-webkit-scrollbar-track {
+  background: var(--dashboard-borders);
+  border-radius: 3px;
+}
+
+.popupTradeListScrollable::-webkit-scrollbar-thumb {
+  background: var(--dashboard-secondary-text);
+  border-radius: 3px;
+}
+
+.popupTradeListScrollable::-webkit-scrollbar-thumb:hover {
+  background: var(--dashboard-primary-text);
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .statCardsRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 750px) {
+  .calendarGrid {
+    overflow-x: auto;
+    padding: 10px;
+  }
+
+  .calendarWeekHeader,
+  .calendarWeek {
+    min-width: 660px;
+  }
+}
+
+@media (max-width: 640px) {
+  .statCard {
+    min-width: 120px;
+  }
+
+  .calendarDay {
+    min-width: 36px;
+    font-size: 13px;
+  }
+
+  .calendarWeekHeader,
+  .calendarWeek {
+    font-size: 12px;
+  }
+
+  .popupBox {
+    width: 90vw !important;
+    min-width: unset;
+    max-width: 90vw;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .popupStatCards {
+    gap: 8px;
+  }
+
+  .popupMiniCard {
+    min-width: calc(50% - 4px);
+    max-width: calc(50% - 4px);
+    padding: 10px;
+  }
+
+  .tradeDetailsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tradeDetails:nth-child(2) {
+    border-right: none;
+  }
+
+  .tradeDetails:nth-child(odd) {
+    border-right: 1px solid var(--dashboard-borders);
+  }
+
+  .tradeDetails:nth-child(even) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .statCard {
+    padding: 10px;
+  }
+
+  .statCardsRow {
+    gap: 10px;
+  }
+
+  .statCardLabel {
+    font-size: 12px;
+  }
+
+  .statCardDeltaUp {
+    font-size: 12px;
+  }
+
+  .statCardDeltaDown {
+    font-size: 12px;
+  }
+
+  .statCardValuePos {
+    font-size: 16px;
+  }
+
+  .statCardValueNeg {
+    font-size: 16px;
+  }
+
+  .monthDisplay {
+    font-size: 16px;
+  }
+
+  .calendarPage {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .statCard {
+    min-width: 85px;
+    padding: 10px;
+  }
+
+  .calendarPage {
+    padding: 10px;
+  }
+
+  .popupMiniCard {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .popupHeading {
+    font-size: 16px;
+  }
+
+  .tradeSymbol {
+    font-size: 13px;
+  }
+
+  .tradeDirectionLong,
+  .tradeDirectionShort {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .tradeTopRow {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tradeDate {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .tradeDetailsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tradeDetails {
+    border-right: none !important;
+    border-bottom: 1px solid var(--dashboard-borders);
+    padding: 8px 12px;
+  }
+
+  .tradeDetails:last-child {
+    border-bottom: none;
+  }
+}

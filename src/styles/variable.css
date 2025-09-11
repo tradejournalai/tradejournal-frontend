@@ -1,0 +1,232 @@
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-Thin.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-Thin.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-ExtraLight.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-ExtraLight.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-Light.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-Regular.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-Medium.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-SemiBold.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-Bold.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-ExtraBold.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-ExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFont';
+  src: url('../assets/fonts/Switzer-Black.woff2') format('woff2'),
+       url('../assets/fonts/Switzer-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'TjFontVariable';
+  src: url('../assets/fonts/Switzer-Variable.woff2') format('woff2 supports variations'),
+       url('../assets/fonts/Switzer-Variable.woff2') format('woff2-variations'),
+       url('../assets/fonts/Switzer-Variable.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'PricingFont';
+  src: url('../assets/fonts/Gambetta-Regular.woff2') format('woff2'),
+       url('../assets/fonts/Gambetta-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PricingFont';
+  src: url('../assets/fonts/Gambetta-Light.woff2') format('woff2'),
+       url('../assets/fonts/Gambetta-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+:root {
+  --tk-content-primary: #18172b;
+  --tk-content-secondary: rgba(24, 23, 43, .63);
+  --tk-content-disabled: rgba(24, 23, 43, .34);
+  --tk-content-divider: rgba(24, 23, 43, .17);
+  --tk-content-shadow: rgba(24, 23, 43, .17);
+  --tk-content-positive: #288067;
+  --tk-surface: #fff;
+  --tk-surface-elevated: #fff;
+  --tk-surface-overlay: rgba(26, 26, 26, .8);
+  --tk-surface-disabled: rgba(24, 23, 43, .17);
+  --tk-surface-read-only: rgba(24, 23, 43, .11);
+  --tk-surface-track: rgba(24, 23, 43, .11);
+  --tk-surface-notice-info: #f4f3f7;
+  --tk-surface-notice-destructive: #f8e8ea;
+  --tk-content-primary-inverted: #fff;
+  --tk-surface-inverted: #18172b;
+  --tk-content-interactive-primary: #fff;
+  --tk-content-interactive-default: #4840ba;
+  --tk-content-interactive-concealed: #4840ba;
+  --tk-content-interactive-ambient: #4840ba;
+  --tk-content-interactive-destructive: #b30015;
+  --tk-surface-interactive-primary: #4840ba;
+  --tk-surface-interactive-default: rgba(72, 64, 186, .1);
+  --tk-surface-interactive-concealed: rgba(72, 64, 186, 0);
+  --tk-surface-interactive-ambient: rgba(72, 64, 186, 0);
+  --tk-surface-interactive-destructive: rgba(179, 0, 21, .1);
+  --tk-content-interactive-primary-hover: #fff;
+
+
+  /* --nav-grad-start: #073A85;
+  --nav-grad-middle: #0A4EAD;
+  --nav-grad-end: #073A85;
+  --primary-text: #0A4EAD;
+  --primary-white: #FAFBFC;
+  --tag-color: #9AAFCE;*/
+  --primary-dark-text: #066d4e; 
+
+  --primary-text: #0fb87f;
+
+    /* Green gradient for navigation and other primary elements */
+  --nav-grad-start: #1A6635;
+  --nav-grad-middle: #2A9950;
+  --nav-grad-end: #1A6635;
+  /* --primary-text: #2A9950; */
+  --primary-white: #FAFBFC;
+  --tag-color: #C1E3CE;
+  /* --primary-dark-text: #1C5531; */
+
+  --tj-nav-gradient: linear-gradient(to right, var(--nav-grad-start), var(--nav-grad-middle), var(--nav-grad-end));
+  /* --tk-gradient-soft: linear-gradient(to right, #fbfbec, #D5E7FA); */
+  --tk-gradient-soft: linear-gradient(to right, #f5faee, #C4E2C7);
+
+
+  --hero-color-start: #066d4e;
+  --hero-color-end: #11cd8e;
+
+
+  --tk-spacing-xxxsmall: 2px;
+  --tk-spacing-xxsmall: 4px;
+  --tk-spacing-xsmall: 8px;
+  --tk-spacing-small: 12px;
+  --tk-spacing-medium: 16px;
+  --tk-spacing-large: 24px;
+  --tk-spacing-xlarge: 32px;
+  --tk-spacing-xxlarge: 48px;
+  --tk-spacing-xxxlarge: 64px;
+
+  --tk-valid-box-shadow-border-default: inset 0 0 0 1px var(--tk-content-divider);
+  --tk-valid-box-shadow-border-hover: 0 0 0 4px var(--tk-surface-interactive-default);
+  --tk-valid-box-shadow-border-focus: inset 0 0 0 2px var(--tk-content-interactive-default);
+  --tk-invalid-box-shadow-border-default: inset 0 0 0 1px var(--tk-content-interactive-destructive);
+  --tk-invalid-box-shadow-border-hover: 0 0 0 4px var(--tk-surface-interactive-destructive);
+  --tk-invalid-box-shadow-border-focus: inset 0 0 0 2px var(--tk-content-interactive-destructive);
+
+  --font-main: 'TjFont', sans-serif;
+
+  --dashboard-primary-background: #FCFCFC;
+  --dashboard-right-background: #F9F9F9;
+  --dashboard-primary-text: #202020;
+  --dashboard-secondary-text: #646464;
+  --dashboard-icons-color: #646464;
+  --dashboard-buttons-hover: #F0F0F0;
+  --dashboard-borders: #E8E8E8;
+  --dashboard-userIcon-color: #0D9888;
+  --dashboard-green-color: #008F75;
+  --dashboard-red-color: #D64D4D;
+  --dashboard-blue-color: #618bff;
+  --dashboard-positive-background: #e5f8ed;
+  --dashboard-negative-background: #f7e6e8;
+  --dashboard-neutral-background: #f2f2f7;
+
+  --landing-background: #FCFCFC;
+  --landing-sec-background: #F9F9F9;
+  --dark-text: #1e1e22;
+}
+
+html[data-theme='dark'] {
+  --dashboard-primary-background: #1e1e22;
+  --dashboard-right-background: #141416;
+  --dashboard-primary-text: #E0E0E0;
+  --dashboard-secondary-text: #A0A0A0;
+  --dashboard-icons-color: #A0A0A0;
+  --dashboard-buttons-hover: #2A2A2A;
+  --dashboard-borders: #2A2A2A;
+
+  --primary-white: var(--dashboard-primary-background); 
+
+  --dashboard-positive-background: #1c2a26; /* Dark, subtle green */
+  --dashboard-negative-background: #2f1e22; /* Dark, subtle red */
+  --dashboard-neutral-background: #2A2A2A;  /* Matches the button hover for consistency */
+}
