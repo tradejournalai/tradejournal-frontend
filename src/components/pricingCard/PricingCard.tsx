@@ -101,7 +101,7 @@ const PricingCard = () => {
         
         <div className={Styles.pricingCards}>
           {/* Monthly Plan Card */}
-          <div className={Styles.pricingCard}>
+          <div className={Styles.pricingCard}> 
             <div className={Styles.cardHeader}>
               <h3>Premium Plan</h3>
               <p>Perfect for serious traders</p>
