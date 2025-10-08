@@ -114,7 +114,7 @@
         left: 0;
         right: 0;
         height: 100vh;
-        background-color: var(--primary-dark-text);
+        background-color: white;
         z-index: 1000;
         display: flex;
         flex-direction: column;
@@ -146,7 +146,7 @@
     }
     
     .mobileMenuContainer .navLink {
-        color: var(--landing-background);
+        color: var(--hero-green-title);
         font-size: 1.5rem;
         padding: 0.5rem 0;
         transition: opacity 0.2s ease;
