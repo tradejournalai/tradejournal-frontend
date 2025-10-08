@@ -11,7 +11,7 @@ const Footer = () => {
       <div className={Styles.footer}>
         <div className={Styles.footerLogo}>
           <p className={Styles.logo}><span className={Styles.TJLogo}>TJ</span>Tradejournalai</p>
-          <p className={Styles.email}>Tradejournalai@gmail.com</p>
+          <p className={Styles.email}>tradejournal.ai@gmail.com</p>
           <div className={Styles.socials}>
             <a href="#" aria-label="Twitter"><RiTwitterXFill /></a>
             <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
