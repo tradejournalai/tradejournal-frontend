@@ -11,6 +11,13 @@
     border-bottom: 1px solid #E0E0E0;
 }
 
+.TJLogo{
+  background-color: var(--hero-green-title);
+  padding: 4px 8px;
+  color: white;
+  margin-right: 8px;
+}
+
 @media (max-width: 1320px){
   .navbar{
     gap: 10%;
@@ -27,7 +34,7 @@
 .logo {
     font-weight: 700; 
     font-size: 24px;
-    color: #066d4e;
+    color: var(--hero-green-title);
     letter-spacing: -.8px;
 }
 
