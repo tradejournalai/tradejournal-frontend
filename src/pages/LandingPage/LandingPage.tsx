@@ -22,6 +22,7 @@ import PricingCard from '../../components/pricingCard/PricingCard';
 import { MdOutlineDone } from "react-icons/md";
 import { HiSparkles } from "react-icons/hi2";
 import HeroImage from "../../assets/image/HeroImage.png";
+import HeroImage2 from "../../assets/image/HeroImage2.png";
 
 
 
@@ -63,44 +64,64 @@ const LandingPage = () => {
 
   return (
     <div className={Styles.landingPageContainer}> 
-      <div className={Styles.landingPageHero}>
-  <div className={Styles.navbarContainer}>
-    <Navbar />
-  </div>
-  <div className={Styles.heroSection}>
-    <div className={Styles.heroContent}>
-      
-      <h1 className={Styles.heroTitle}>
-        Track, analyze, and optimize your trading performance with ai insights.
-      </h1>
-      
-      <div className={Styles.heroTags}>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Pattern Recognition</p>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Ai Insights</p>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Improve Win Rate</p>
-      </div>
-      
-      <div className={Styles.heroCta}>
-        <NavLink to={"/register"}><FilledButton text='Start For Free' /></NavLink>
-      </div>
-      
-      {/* Enhanced Hero Image Container */}
-      <div className={Styles.heroRectangle}>
-        <div className={Styles.heroImageContainer}>
-          <div className={Styles.heroImage}>
-            <img src={HeroImage} alt="Trading Dashboard" className={Styles.heroMockup} />
-          </div>
-          <div className={Styles.heroImageSecondary}>
-            <img src={HeroImage} alt="Analytics Dashboard" className={Styles.heroMockupSecondary} />
-          </div>
-          <div className={Styles.heroImageTertiary}>
-            <img src={HeroImage} alt="Performance Metrics" className={Styles.heroMockupTertiary} />
+  <div className={Styles.landingPageHero}>
+    <div className={Styles.navbarContainer}>
+      <Navbar />
+    </div>
+    <div className={Styles.heroSection}>
+      <div className={Styles.heroContent}>
+        
+        <h1 className={Styles.heroTitle}>
+          Track, analyze, and optimize your trading performance with ai insights.
+        </h1>
+        
+        <div className={Styles.heroTags}>
+          <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Pattern Recognition</p>
+          <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Ai Insights</p>
+          <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Improve Win Rate</p>
+        </div>
+        
+        <div className={Styles.heroCta}>
+          <NavLink to={"/register"}><FilledButton text='Start For Free' /></NavLink>
+        </div>
+        
+        {/* Enhanced Hero Image Container */}
+        <div className={Styles.heroRectangle}>
+          <div className={Styles.heroImageContainer}>
+            {/* Desktop Images */}
+            <div className={Styles.heroImage}>
+              <img 
+                src={HeroImage} 
+                alt="Trading Dashboard" 
+                className={Styles.heroMockup} 
+              />
+            </div>
+            <div className={Styles.heroImageSecondary}>
+              <img src={HeroImage} alt="Analytics Dashboard" className={Styles.heroMockupSecondary} />
+            </div>
+            <div className={Styles.heroImageTertiary}>
+              <img src={HeroImage} alt="Performance Metrics" className={Styles.heroMockupTertiary} />
+            </div>
+            
+            {/* Mobile Images */}
+            <div className={Styles.mobileHeroImage}>
+              <img 
+                src={HeroImage2} 
+                alt="Trading Dashboard Mobile" 
+                className={Styles.heroMockup} 
+              />
+            </div>
+            <div className={Styles.mobileHeroSecondary}>
+              <img src={HeroImage2} alt="Analytics Dashboard Mobile" className={Styles.heroMockupSecondary} />
+            </div>
+            <div className={Styles.mobileHeroTertiary}>
+              <img src={HeroImage2} alt="Performance Metrics Mobile" className={Styles.heroMockupTertiary} />
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
       {/* Brokerage Integration Section */}

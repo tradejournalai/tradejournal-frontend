@@ -76,9 +76,6 @@
     }
 }
 
-
-
-
 .heroTags{
     display: flex;
     justify-content: center;
@@ -143,6 +140,8 @@
     align-items: center;
     padding: 40px;
 }
+
+/* ========== DESKTOP LAYOUT ========== */
 
 /* Primary (main) image - centered and slightly tilted */
 .heroImage {
@@ -212,7 +211,172 @@
     padding: 6px;
 }
 
-/* Responsive Design */
+/* ========== MOBILE LAYOUT WITH CLOSER FLOATING EFFECTS ========== */
+
+/* Mobile main image container */
+.mobileHeroImage {
+    display: none;
+    position: absolute;
+    width: auto;
+    max-width: 220px;
+    height: auto;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-2deg) translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+.mobileHeroImage:hover {
+    transform: translate(-50%, -50%) rotate(-2deg) translateY(-10px) scale(1.03);
+}
+
+.mobileHeroImage img {
+    width: auto;
+    height: 280px;
+    object-fit: contain;
+    border-radius: 20px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    background: white;
+    padding: 8px;
+}
+
+/* Mobile secondary image - CLOSER POSITION */
+.mobileHeroSecondary {
+    display: none;
+    position: absolute;
+    width: auto;
+    max-width: 180px;
+    height: auto;
+    z-index: 2;
+    top: 25%;
+    left: 25%; /* Moved closer from left */
+    transform: rotate(-8deg) translateY(-3px);
+    opacity: 0.85;
+}
+
+.mobileHeroSecondary img {
+    width: auto;
+    height: 220px;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: white;
+    padding: 6px;
+}
+
+/* Mobile tertiary image - CLOSER POSITION */
+.mobileHeroTertiary {
+    display: none;
+    position: absolute;
+    width: auto;
+    max-width: 170px;
+    height: auto;
+    z-index: 1;
+    top: 25%;
+    right: 25%; /* Moved closer from right */
+    transform: rotate(6deg) translateY(-3px);
+    opacity: 0.75;
+}
+
+.mobileHeroTertiary img {
+    width: auto;
+    height: 210px;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    background: white;
+    padding: 6px;
+}
+
+/* ========== ANIMATIONS ========== */
+
+/* Desktop animations */
+@keyframes float {
+    0%, 100% { transform: rotate(-2deg) translateY(-10px); }
+    50% { transform: rotate(-2deg) translateY(-20px); }
+}
+
+@keyframes floatSecondary {
+    0%, 100% { transform: rotate(-8deg) translateY(-5px); }
+    50% { transform: rotate(-8deg) translateY(-15px); }
+}
+
+@keyframes floatTertiary {
+    0%, 100% { transform: rotate(6deg) translateY(-5px); }
+    50% { transform: rotate(6deg) translateY(-15px); }
+}
+
+.heroImage {
+    animation: float 6s ease-in-out infinite;
+}
+
+.heroImageSecondary {
+    animation: floatSecondary 8s ease-in-out infinite reverse;
+}
+
+.heroImageTertiary {
+    animation: floatTertiary 7s ease-in-out infinite;
+}
+
+/* Mobile animations - CLOSER AND MORE SUBTLE */
+@keyframes floatMobile {
+    0%, 100% { transform: translate(-50%, -50%) rotate(-2deg) translateY(-5px); }
+    50% { transform: translate(-50%, -50%) rotate(-2deg) translateY(-10px); }
+}
+
+@keyframes floatMobileSecondary {
+    0%, 100% { transform: rotate(-8deg) translateY(-3px); }
+    50% { transform: rotate(-8deg) translateY(-8px); }
+}
+
+@keyframes floatMobileTertiary {
+    0%, 100% { transform: rotate(6deg) translateY(-3px); }
+    50% { transform: rotate(6deg) translateY(-8px); }
+}
+
+.mobileHeroImage {
+    animation: floatMobile 5s ease-in-out infinite;
+}
+
+.mobileHeroSecondary {
+    animation: floatMobileSecondary 7s ease-in-out infinite reverse;
+}
+
+.mobileHeroTertiary {
+    animation: floatMobileTertiary 6s ease-in-out infinite;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablet and Mobile Optimizations (1000px and below) */
+@media (max-width: 1000px) {
+    .heroRectangle {
+        height: 450px; /* Reduced height since images are closer */
+        width: 95%;
+        margin: 0 auto;
+    }
+    
+    .heroImageContainer {
+        padding: 30px 20px;
+    }
+    
+    /* Hide desktop images */
+    .heroImage,
+    .heroImageSecondary,
+    .heroImageTertiary {
+        display: none;
+    }
+    
+    /* Show mobile images */
+    .mobileHeroImage,
+    .mobileHeroSecondary,
+    .mobileHeroTertiary {
+        display: block;
+    }
+}
+
+/* Mobile-specific styles (768px and below) */
 @media (max-width: 768px) {
     .navbarContainer {
         padding: 0 var(--tk-spacing-medium);
@@ -220,6 +384,7 @@
     
     .heroSection {
         padding: 0 var(--tk-spacing-medium);
+        background-size: 90% 100%;
     }
     
     .heroTitle {
@@ -227,18 +392,48 @@
         width: 95%;
     }
     
+    .heroContent {
+        gap: 25px;
+        padding: 50px 0px;
+    }
+    
     .heroRectangle {
-        height: 500px;
+        height: 400px; /* Further reduced height */
+        width: 92%;
+        border-radius: 1.5rem;
     }
     
-    .heroImage {
-        width: 80%;
-        height: 80%;
+    .heroImageContainer {
+        padding: 20px 15px;
     }
     
-    .heroImageSecondary,
-    .heroImageTertiary {
-        display: none; /* Hide secondary images on mobile for cleaner look */
+    /* Adjust mobile image sizes and positions for tablet */
+    .mobileHeroImage {
+        max-width: 200px;
+    }
+    
+    .mobileHeroImage img {
+        height: 250px;
+    }
+    
+    .mobileHeroSecondary {
+        max-width: 160px;
+        top: 25%;
+        left: 25%; /* Even closer on tablet */
+    }
+    
+    .mobileHeroSecondary img {
+        height: 200px;
+    }
+    
+    .mobileHeroTertiary {
+        max-width: 150px;
+        top: 25%;
+        right: 25%; /* Even closer on tablet */
+    }
+    
+    .mobileHeroTertiary img {
+        height: 190px;
     }
     
     .heroTags {
@@ -247,6 +442,7 @@
     }
 }
 
+/* Small mobile devices (480px and below) */
 @media (max-width: 480px) {
     .heroTitle {
         font-size: 2rem;
@@ -254,38 +450,121 @@
     }
     
     .heroRectangle {
-        height: 400px;
-        width: 95%;
+        height: 350px; /* Compact height for mobile */
+        width: 90%;
+        border-radius: 1rem;
     }
     
-    .heroContent {
-        gap: 20px;
-        padding: 50px 0px;
+    .heroImageContainer {
+        padding: 15px 10px;
+    }
+    
+    /* Compact mobile image layout */
+    .mobileHeroImage {
+        max-width: 180px;
+        transform: translate(-50%, -50%) rotate(-1deg) translateY(-3px);
+    }
+    
+    .mobileHeroImage img {
+        height: 220px;
+        border-radius: 18px;
+        padding: 6px;
+    }
+    
+    .mobileHeroSecondary {
+        max-width: 140px;
+        top: 25%;
+        left: 15%; /* Very close on small mobile */
+        transform: rotate(-6deg) translateY(-2px);
+    }
+    
+    .mobileHeroSecondary img {
+        height: 170px;
+        border-radius: 16px;
+        padding: 5px;
+    }
+    
+    .mobileHeroTertiary {
+        max-width: 130px;
+        top: 25%;
+        right: 15%; /* Very close on small mobile */
+        transform: rotate(4deg) translateY(-2px);
+    }
+    
+    .mobileHeroTertiary img {
+        height: 160px;
+        border-radius: 16px;
+        padding: 5px;
     }
     
     .tags {
         font-size: 12px;
         padding: 3px;
     }
+    
+    .heroContent {
+        gap: 20px;
+    }
 }
 
-/* Animation for a more dynamic feel */
-@keyframes float {
-    0%, 100% { transform: rotate(-2deg) translateY(-10px); }
-    50% { transform: rotate(-2deg) translateY(-20px); }
+/* Very small devices (360px and below) */
+@media (max-width: 360px) {
+    .heroRectangle {
+        height: 320px; /* Most compact */
+    }
+    
+    .heroImageContainer {
+        padding: 12px 8px;
+    }
+    
+    .heroTitle {
+        font-size: 1.8rem;
+    }
+    
+    /* Ultra-compact layout for very small screens */
+    .mobileHeroImage {
+        max-width: 160px;
+    }
+    
+    .mobileHeroImage img {
+        height: 200px;
+    }
+    
+    .mobileHeroSecondary {
+        max-width: 120px;
+        top: 25%;
+        left: 8%;
+    }
+    
+    .mobileHeroSecondary img {
+        height: 150px;
+    }
+    
+    .mobileHeroTertiary {
+        max-width: 110px;
+        top: 25%;
+        right: 8%;
+    }
+    
+    .mobileHeroTertiary img {
+        height: 140px;
+    }
 }
 
-.heroImage {
-    animation: float 6s ease-in-out infinite;
+/* Additional responsive adjustments for hero section background */
+@media (max-width: 1024px) {
+    .heroSection {
+        background-size: 95% 100%;
+    }
 }
 
-.heroImageSecondary {
-    animation: float 8s ease-in-out infinite reverse;
+@media (max-width: 768px) {
+    .heroSection {
+        background-size: 120% 100%;
+        background-position: top left;
+    }
 }
 
-.heroImageTertiary {
-    animation: float 7s ease-in-out infinite;
-}
 
 
 .brokerageSection {
