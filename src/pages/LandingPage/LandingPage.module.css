@@ -1059,6 +1059,13 @@
     border-radius: 40px;
 }
 
+.sectionContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .aiImageContainer{
     position: absolute;
     width: 700px;
