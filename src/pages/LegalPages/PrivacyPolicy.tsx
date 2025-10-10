@@ -163,8 +163,8 @@ const PrivacyPolicy: React.FC = () => {
                   For questions about this Privacy Policy or your data:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: tradejournalai@gmail.com<br />
-                  Phone: +91 9999999999<br />
+                  Email: tradejournal.ai@gmail.com<br />
+                  Phone: +91 9339682864<br />
                   Address: Bengaluru, Karnataka, India<br />
                   Website: https://tradejournalai.in
                 </address>
