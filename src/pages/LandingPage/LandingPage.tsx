@@ -230,7 +230,7 @@ const LandingPage = () => {
       {/* Features Section - Replacing How It Works */}
 <section className={Styles.featuresSection}>
   <div className={Styles.featuresTag}>
-    <p className={Styles.tags}>Everything You Need to Journal Like a Pro</p>
+    <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Everything You Need to Journal Like a Pro</p>
   </div>
   
   <div className={Styles.featuresHeader}>
@@ -286,14 +286,14 @@ const LandingPage = () => {
 
     {/* Feature 5: Risk Assessment */}
     <div className={Styles.featureCard}>
-      <div className={Styles.featureIcon}>
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9 17L7.5 15.5M14 14L12.5 12.5M9 7L7.5 8.5M14 10L12.5 11.5M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </div>
-      <h3>Risk Assessment</h3>
-      <p>Get AI-powered risk analysis and position sizing recommendations for each trade.</p>
-    </div>
+  <div className={Styles.featureIcon}>
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  </div>
+  <h3>Risk Assessment</h3>
+  <p>Get AI-powered risk analysis and position sizing recommendations for each trade.</p>
+</div>
 
     {/* Feature 6: Market Sentiment */}
     <div className={Styles.featureCard}>

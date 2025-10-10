@@ -13,11 +13,11 @@ const Footer = () => {
           <p className={Styles.logo}><span className={Styles.TJLogo}>TJ</span>Tradejournalai</p>
           <p className={Styles.email}>tradejournal.ai@gmail.com</p>
           <div className={Styles.socials}>
-            <a href="#" aria-label="Twitter"><RiTwitterXFill /></a>
-            <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
-            <a href="#" aria-label="Instagram"><BsInstagram /></a>
-            <a href="#" aria-label="YouTube"><FaYoutube /></a>
-            <a href="#" aria-label="Whatsapp"><FaWhatsapp /></a>
+            <a target='_blank' href="https://x.com/tradejournal_ai?t=ig9DqGrD_kHbF0yWEUecTg&s=09" aria-label="Twitter"><RiTwitterXFill /></a>
+            <a target='_blank' href="#" aria-label="LinkedIn"><FaLinkedin /></a>
+            <a target='_blank' href="https://www.instagram.com/tradejournal.ai?igsh=dnQwcDJldTBqczho" aria-label="Instagram"><BsInstagram /></a>
+            <a target='_blank' href="#" aria-label="YouTube"><FaYoutube /></a>
+            <a target='_blank' href="#" aria-label="Whatsapp"><FaWhatsapp /></a>
           </div>
         </div>
         <div className={Styles.footerContent}>
