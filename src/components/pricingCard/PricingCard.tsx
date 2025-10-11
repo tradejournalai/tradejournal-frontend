@@ -123,13 +123,14 @@ const PricingCard = () => {
             </div>
             
             <ul className={Styles.features}>
-              <li>Unlimited trade journaling</li>
-              <li>Advanced charts and graphs</li>
-              <li>AI-powered trade insights</li>
-              <li>Psychology & risk analysis</li>
+              <li>Unlimited trades journaling.</li>
+              <li>Advanced charts & graphs</li>
+              <li>AI powered trades insights</li>
+              <li>Psychology & Risk management analytics.</li>
               <li>Monthly performance reports</li>
-              <li>Secure cloud backup</li>
+              <li>Secured cloud backup</li>
               <li>Advanced analytics dashboard</li>
+              <li>Standard support.</li>
             </ul>
             
             <div className={Styles.buttonContainer}>
@@ -217,12 +218,14 @@ const PricingCard = () => {
             </div>
             
             <ul className={Styles.features}>
-              <li>Unlimited trade journaling</li>
-              <li>Advanced charts and graphs</li>
-              <li>AI-powered trade insights</li>
-              <li>Psychology & risk analysis</li>
+              <li>Unlimited trades journaling.</li>
+              <li>Advanced charts & graphs</li>
+              <li>AI powered trades insights</li>
+              <li>Psychology & Risk management analytics.</li>
+              <li>Monthly performance reports</li>
+              <li>Secured cloud backup</li>
               <li>Advanced analytics dashboard</li>
-              <li>Priority customer support</li>
+              <li>Priority support.</li>
               <li>Early access to new features</li>
             </ul>
             
