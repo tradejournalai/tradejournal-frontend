@@ -152,7 +152,7 @@ const ShippingPolicy: React.FC = () => {
                 <address className={Styles.contactInfo}>
                   Email: tradejournal.ai@gmail.com<br />
                   Phone: +91 9339682864<br />
-                  Address: Bengaluru, Karnataka, India<br />
+                  Address: COCOON COWORKS NO 757, 15th main, 7th cross, BTM 2nd stage. Bangalore South-560076<br />
                   Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
