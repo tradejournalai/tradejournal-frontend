@@ -12,6 +12,8 @@ const Footer = () => {
         <div className={Styles.footerLogo}>
           <p className={Styles.logo}><span className={Styles.TJLogo}>TJ</span>Tradejournalai</p>
           <p className={Styles.email}>tradejournal.ai@gmail.com</p>
+          <p className={Styles.email}>Company address: 2nd stage BTM, Bangalore</p>
+
           <div className={Styles.socials}>
             <a target='_blank' href="https://x.com/tradejournal_ai?t=ig9DqGrD_kHbF0yWEUecTg&s=09" aria-label="Twitter"><RiTwitterXFill /></a>
             <a target='_blank' href="#" aria-label="LinkedIn"><FaLinkedin /></a>

@@ -1237,9 +1237,6 @@
     width: 100%;
     background-color: white;
     color: var(--hero-title);
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
-    margin-top: -100px;
 }
 
 @media (max-width: 883px) {
@@ -1455,4 +1452,137 @@
     .faqQuestion h3 {
         font-size: 16px;
     }
+}
+
+/* CTA Card Section */
+.ctaCardSection {
+  padding: 60px 20px;
+  background: #f8f9fc;
+}
+
+.ctaCard {
+  max-width: 800px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, var(--hero-green-title) 0%, #0d9b6b 100%);
+  border-radius: 24px;
+  padding: 60px 40px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.ctaCard h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  position: relative;
+  z-index: 2;
+}
+
+.ctaCard p {
+  font-size: 1.2rem;
+  margin-bottom: 35px;
+  opacity: 0.95;
+  line-height: 1.5;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.ctaCard a {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+}
+
+/* Override button styles for this specific card */
+.ctaCard button {
+  background: white !important;
+  color: var(--primary-dark-text) !important;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ctaCard button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 883px) {
+  .ctaCardSection {
+    padding: 40px 20px;
+  }
+  
+  .ctaCard {
+    padding: 50px 30px;
+    border-radius: 20px;
+  }
+  
+  .ctaCard h2 {
+    font-size: 2rem;
+    margin-bottom: 18px;
+  }
+  
+  .ctaCard p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ctaCardSection {
+    padding: 30px 15px;
+  }
+  
+  .ctaCard {
+    padding: 40px 25px;
+    border-radius: 16px;
+  }
+  
+  .ctaCard h2 {
+    font-size: 1.8rem;
+  }
+  
+  .ctaCard p {
+    font-size: 1rem;
+  }
+  
+  .ctaCard button {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ctaCard {
+    padding: 35px 20px;
+  }
+  
+  .ctaCard h2 {
+    font-size: 1.6rem;
+  }
 }

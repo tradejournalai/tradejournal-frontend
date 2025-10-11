@@ -399,6 +399,20 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* CTA Card Section */}
+<section className={Styles.ctaCardSection}>
+  <div className={Styles.sectionContainer}>
+    <div className={Styles.ctaCard}>
+      <h2>Ready to transform your trading?</h2>
+      <p>Get started with TradeJournalAI's powerful analytics to improve your trading performance</p>
+      <NavLink to={"/register"}>
+        <FilledButton text='Start Journaling' />
+      </NavLink>
+    </div>
+  </div>
+</section>
+
+
       <div className={Styles.footerContainer}>
         <Footer /> 
       </div>
