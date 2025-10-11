@@ -12,7 +12,7 @@
 }
 
 .TJLogo{
-  background-color: var(--hero-green-title);
+  background-color: var(--primary-dark-text);
   padding: 4px 8px;
   color: white;
   margin-right: 8px;
@@ -34,7 +34,7 @@
 .logo {
     font-weight: 700; 
     font-size: 24px;
-    color: var(--hero-green-title);
+    color: var(--primary-dark-text);
     letter-spacing: -.8px;
 }
 

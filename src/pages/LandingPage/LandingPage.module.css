@@ -568,9 +568,11 @@
 
 
 .brokerageSection {
-    padding: 40px 0;
+    padding: 20px 0;
     overflow: hidden;
     position: relative;
+    background: linear-gradient(135deg, var(--hero-green-title) 0%, #0d9b6b 100%);
+
 }
 
 .brokerMarquee {
@@ -1292,7 +1294,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 100px 0;
+    padding: 60px 0;
+    background: linear-gradient(135deg, var(--hero-green-title) 0%, #0d9b6b 100%);
+
 }
 
 .highlightSection{
