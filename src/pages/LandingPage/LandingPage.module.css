@@ -25,6 +25,7 @@
 }
 
 .heroSection {
+    z-index: 99;
     flex: 1;
     display: flex;
     justify-content: center;
@@ -568,7 +569,8 @@
 
 
 .brokerageSection {
-    padding: 20px 0;
+    margin: -100px 0;
+    padding: 120px 0;
     overflow: hidden;
     position: relative;
     background: linear-gradient(135deg, var(--hero-green-title) 0%, #0d9b6b 100%);
@@ -1294,7 +1296,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 60px 0;
+    margin: -100px 0;
+    padding: 160px 0;
     background: linear-gradient(135deg, var(--hero-green-title) 0%, #0d9b6b 100%);
 
 }
