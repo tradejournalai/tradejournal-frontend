@@ -5,7 +5,7 @@ import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Styles from './Register.module.css';
 import { useAuth } from '../../hooks/useAuth';
 import { useCustomToast } from '../../hooks/useCustomToast';
-import { useGoogleAuth } from '../../hooks/useGoogleAuth'; // Add this import
+import { useGoogleAuth } from '../../hooks/useGoogleAuth'; 
 
 interface FormData {
   username: string;
@@ -17,7 +17,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { register, loading } = useAuth();
   const { showSuccessToast, showErrorToast } = useCustomToast();
-  const { initiateGoogleSignup } = useGoogleAuth(); // Add this hook
+  const { initiateGoogleSignup } = useGoogleAuth(); 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     username: '',

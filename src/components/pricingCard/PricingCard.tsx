@@ -119,7 +119,7 @@ const PricingCard = () => {
             </div>
             
             <div className={Styles.trialNotice}>
-              Start with 24 hours FREE trial!
+              Start with 1 week FREE trial!
             </div>
             
             <ul className={Styles.features}>
@@ -214,7 +214,7 @@ const PricingCard = () => {
             </div>
             
             <div className={Styles.trialNotice}>
-              Start with 24 hours FREE trial!
+              Start with 1 week FREE trial!
             </div>
             
             <ul className={Styles.features}>
