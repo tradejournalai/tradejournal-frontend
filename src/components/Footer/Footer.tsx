@@ -4,7 +4,7 @@ import { RiTwitterXFill } from "react-icons/ri";
 import { BsInstagram } from "react-icons/bs";
 import { FaWhatsapp } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-// import { IoLocation } from "react-icons/io5";
+import { IoLocation } from "react-icons/io5";
 
 
 const Footer = () => {
@@ -14,7 +14,7 @@ const Footer = () => {
         <div className={Styles.footerLogo}>
           <p className={Styles.logo}><span className={Styles.TJLogo}>TJ</span>Tradejournalai</p>
           <p className={Styles.email}>tradejournal.ai@gmail.com</p>
-          <p className={Styles.email}>Company address: Cocoon Coworks 15th main, 2nd stage BTM layout, Bangalore</p>
+          <p className={Styles.location}>Location <span className={Styles.locIcon}><IoLocation/></span>: Cocoon Coworks 15th main, 2nd stage BTM layout, Bangalore</p>
 
           <div className={Styles.socials}>
             <a target='_blank' href="https://x.com/tradejournal_ai?t=ig9DqGrD_kHbF0yWEUecTg&s=09" aria-label="Twitter"><RiTwitterXFill /></a>
