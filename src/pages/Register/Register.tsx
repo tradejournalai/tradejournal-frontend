@@ -58,7 +58,7 @@ const Register = () => {
 
     try {
       await register(formData.username, formData.email, formData.password);
-      showSuccessToast('Registration successful! Welcome aboard!');
+      showSuccessToast('Registration successful! Welcome!');
       navigate('/dashboard');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Registration failed';
