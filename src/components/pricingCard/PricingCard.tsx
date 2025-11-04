@@ -110,7 +110,7 @@ const PricingCard = () => {
             <div className={Styles.priceContainer}>
               <div className={Styles.price}>
                 <span className={Styles.currency}>₹</span>
-                <span className={Styles.amount}>99</span>
+                <span className={Styles.amount}>1</span>
                 <span className={Styles.period}>/month</span>
               </div>
               <div className={Styles.effectivePrice}>
@@ -146,7 +146,7 @@ const PricingCard = () => {
                 </button>
               ) : (
                 <PaymentButton
-                  amount={99}
+                  amount={1}
                   userEmail={user.email}
                   planType="monthly"
                   onSuccess={(paymentId, planType) => handlePaymentSuccess(paymentId, planType as 'monthly' | 'annual')}
