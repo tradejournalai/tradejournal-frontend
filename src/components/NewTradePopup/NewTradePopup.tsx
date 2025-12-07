@@ -444,7 +444,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                     </label>
                     <select 
                       value={formData.asset_type} 
-                      onChange={e => handleUpdateField("asset_type", e.target.value)} 
+                      onChange={e => handleUpdateField("asset_type", e.target.value as TradeFormData["asset_type"])}
                       required
                     >
                       <option value="">Select Asset Type</option>
@@ -563,7 +563,11 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       <label>
                         Strategy <span className={Styles.required}>*</span>
                       </label>
-                      <select value={formData.strategy} onChange={e => handleUpdateField("strategy", e.target.value)} required>
+                      <select
+                        value={String(formData.strategy ?? "")}
+                        onChange={e => handleUpdateField("strategy", e.target.value as TradeFormData["strategy"])}
+                        required
+                      >
                         <option value="">Select Strategy</option>
                         {strategies.map(o => (
                           <option key={o._id} value={o._id}>
@@ -571,6 +575,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                           </option>
                         ))}
                       </select>
+
                       <div className={Styles.addCustomContainer}>
                         <input
                           type="text"
@@ -590,7 +595,11 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       <label>
                         Outcome <span className={Styles.required}>*</span>
                       </label>
-                      <select value={formData.outcome_summary} onChange={e => handleUpdateField("outcome_summary", e.target.value)} required>
+                      <select
+                        value={String(formData.outcome_summary ?? "")}
+                        onChange={e => handleUpdateField("outcome_summary", e.target.value as TradeFormData["outcome_summary"])}
+                        required
+                      >
                         <option value="">Select Outcome</option>
                         {outcomeSummaries.map(o => (
                           <option key={o._id} value={o._id}>
@@ -598,16 +607,18 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                           </option>
                         ))}
                       </select>
+
                     </div>
                   </div>
                   <div className={Styles.formGroup}>
                     <label>Trade Analysis</label>
-                    <textarea 
-                      value={formData.trade_analysis} 
-                      onChange={e => handleUpdateField("trade_analysis", e.target.value)} 
-                      rows={4} 
-                      placeholder="Explain why you entered this trade, market conditions, technical indicators used, etc."
+                    <textarea
+                      value={String(formData.trade_analysis ?? "")}
+                      onChange={e => handleUpdateField("trade_analysis", e.target.value as TradeFormData["trade_analysis"])}
+                      rows={4}
+                      placeholder="Explain why you entered this trade..."
                     />
+
                   </div>
                   <div className={Styles.formGroup}>
                     <label>

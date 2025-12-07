@@ -69,7 +69,7 @@ const safeString = (x: unknown, fallback = "Other"): string => {
 
 const extractStrategyName = (t: IncomingTrade) => {
   // strategy may be string or object
-  return safeString(t.strategy ?? t.strategy?.name ?? t.strategy?._id, "Other");
+  return safeString(t.strategy ?? "Other");
 };
 
 const extractAssetType = (t: IncomingTrade) => {

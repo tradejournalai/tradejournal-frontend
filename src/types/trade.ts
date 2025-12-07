@@ -5,7 +5,7 @@ export interface TradeFormData {
   date: string;
   quantity: number | null;
   total_amount: number;
-  asset_type: "Stock" | "Option" | "Forex" | "Crypto" | "Other";
+  asset_type?: "" | "Stock" | "Option" | "Forex" | "Crypto" | "Other";
   entry_price: number | null;
   exit_price: number | null;
   direction: "Long" | "Short";
