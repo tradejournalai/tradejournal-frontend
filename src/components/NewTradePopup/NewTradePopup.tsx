@@ -24,6 +24,7 @@ interface Option {
 
 const initialFormData: TradeFormData = {
   symbol: '',
+  asset_type: '',
   date: '',
   quantity: null,
   total_amount: 0,
@@ -48,6 +49,14 @@ const initialFormData: TradeFormData = {
     lessons_learned: ''
   }
 };
+
+const assetTypeOptions = [
+  { value: 'stock', label: 'Stock' },
+  { value: 'crypto', label: 'Crypto' },
+  { value: 'futures', label: 'Futures' },
+  { value: 'option', label: 'Option' },
+  { value: 'forex', label: 'Forex' }
+];
 
 const getRangeProgressStyle = (value: number, min: number, max: number) => {
   const progress = ((value - min) / (max - min)) * 100;
@@ -75,6 +84,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
       const populatedFormData: TradeFormData = {
         ...initialFormData,
         ...tradeToEdit,
+        asset_type: tradeToEdit.asset_type || '', // Include asset_type
         strategy: typeof tradeToEdit.strategy === 'object' ? tradeToEdit.strategy._id : '',
         outcome_summary: typeof tradeToEdit.outcome_summary === 'object' ? tradeToEdit.outcome_summary._id : '',
         rules_followed: tradeToEdit.rules_followed?.map(rule => typeof rule === 'object' ? rule._id : '') || [],
@@ -267,6 +277,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
   const convertFormDataToTradeData = (formData: TradeFormData): Partial<Trade> => {
     return {
       ...formData,
+      asset_type: formData.asset_type || undefined, // Include asset_type
       quantity: formData.quantity ?? undefined,
       entry_price: formData.entry_price ?? undefined,
       exit_price: formData.exit_price ?? undefined,
@@ -294,6 +305,10 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
   const validateGeneralTab = (): boolean => {
     if (!formData.symbol.trim()) {
       toast.handleValidationError("Symbol", "required");
+      return false;
+    }
+    if (!formData.asset_type) {
+      toast.handleValidationError("Asset Type", "required");
       return false;
     }
     if (!formData.date) {
@@ -419,9 +434,26 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       type="text" 
                       value={formData.symbol} 
                       onChange={e => handleUpdateField("symbol", e.target.value)} 
-                      placeholder="e.g., NIFTY50, SENSEX"
+                      placeholder="e.g., NIFTY50, SENSEX, BTCUSD"
                       required 
                     />
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>
+                      Asset Type <span className={Styles.required}>*</span>
+                    </label>
+                    <select 
+                      value={formData.asset_type} 
+                      onChange={e => handleUpdateField("asset_type", e.target.value)} 
+                      required
+                    >
+                      <option value="">Select Asset Type</option>
+                      {assetTypeOptions.map(option => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className={Styles.formGroup}>
                     <label htmlFor="tradeDate">
