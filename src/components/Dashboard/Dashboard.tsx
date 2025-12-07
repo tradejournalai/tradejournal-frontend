@@ -590,7 +590,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {trades && trades.length > 0 && <PerformanceAnalytics trades={trades} />}
+      {trades && trades.length > 0 && (
+  <PerformanceAnalytics trades={trades as unknown[]} />
+)}
 
       {topTrades.length > 0 && (
         <div className={Styles.topTradesSection}>

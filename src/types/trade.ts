@@ -13,9 +13,9 @@ export interface TradeFormData {
   target: number | null;
 
   // 🔥 FIXED THESE 3 FIELDS
-  strategy: StringOrObject;
-  trade_analysis: StringOrObject;
-  outcome_summary: StringOrObject;
+  strategy: string;
+  trade_analysis: string;
+  outcome_summary: string;
 
   rules_followed: string[];
   pnl_amount: number;

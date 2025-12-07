@@ -275,31 +275,44 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
 
   // Helper: Convert the form data to the backend-compatible format
   const convertFormDataToTradeData = (formData: TradeFormData): Partial<Trade> => {
-    return {
-      ...formData,
-      asset_type: formData.asset_type || undefined, // Include asset_type
-      quantity: formData.quantity ?? undefined,
-      entry_price: formData.entry_price ?? undefined,
-      exit_price: formData.exit_price ?? undefined,
-      stop_loss: formData.stop_loss ?? undefined,
-      target: formData.target ?? undefined,
-      holding_period_minutes: formData.holding_period_minutes ?? undefined,
-      strategy: formData.strategy ? { _id: formData.strategy, name: '' } : undefined,
-      outcome_summary: formData.outcome_summary ? { _id: formData.outcome_summary, name: '' } : undefined,
-      rules_followed: formData.rules_followed
-        ? formData.rules_followed.map(id => ({ _id: id, name: '' }))
-        : [],
-      psychology: formData.psychology
-        ? {
-            ...formData.psychology,
-            emotional_state: formData.psychology.emotional_state
-              ? { _id: formData.psychology.emotional_state, name: '' }
-              : undefined,
-          }
-        : undefined,
-      tags: formData.tags || [],
-    };
+  return {
+    ...formData,
+
+    asset_type: formData.asset_type || undefined,
+
+    quantity: formData.quantity ?? undefined,
+    entry_price: formData.entry_price ?? undefined,
+    exit_price: formData.exit_price ?? undefined,
+    stop_loss: formData.stop_loss ?? undefined,
+    target: formData.target ?? undefined,
+    holding_period_minutes: formData.holding_period_minutes ?? undefined,
+
+    // FIXED — Force ID to always be a string
+    strategy: formData.strategy
+      ? { _id: String(formData.strategy), name: '' }
+      : undefined,
+
+    outcome_summary: formData.outcome_summary
+      ? { _id: String(formData.outcome_summary), name: '' }
+      : undefined,
+
+    rules_followed: formData.rules_followed
+      ? formData.rules_followed.map(id => ({ _id: String(id), name: '' }))
+      : [],
+
+    psychology: formData.psychology
+      ? {
+          ...formData.psychology,
+          emotional_state: formData.psychology.emotional_state
+            ? { _id: String(formData.psychology.emotional_state), name: '' }
+            : undefined,
+        }
+      : undefined,
+
+    tags: formData.tags || [],
   };
+};
+
 
   // Validate only required fields for General tab
   const validateGeneralTab = (): boolean => {

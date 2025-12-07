@@ -13,17 +13,10 @@ import {
   Cell,
 } from "recharts";
 import Styles from "./PerformanceAnalytics.module.css";
-import type { SavedTrade } from "../../types/trade";
 
-/**
- * Defensive incoming trade shape:
- * We accept an array of objects which may be Partial<SavedTrade> OR your existing Trade shape.
- * Define IncomingTrade to be Partial<SavedTrade> plus an index signature so TS won't complain.
- */
-type IncomingTrade = Partial<SavedTrade> & Record<string, unknown>;
-
+// Change Props to accept unknown[] instead of AnalyticsTrade[]
 type Props = {
-  trades: IncomingTrade[]; // works with SavedTrade[] or Trade[] from your hook
+  trades: unknown[]; // Changed from AnalyticsTrade[] to unknown[]
 };
 
 type GroupRow = {
@@ -67,28 +60,41 @@ const safeString = (x: unknown, fallback = "Other"): string => {
   return String(x);
 };
 
-const extractStrategyName = (t: IncomingTrade) => {
-  // strategy may be string or object
-  return safeString(t.strategy ?? "Other");
+// Helper function to safely extract a property from unknown object
+const getProperty = (obj: unknown, property: string): unknown => {
+  if (typeof obj === 'object' && obj !== null) {
+    return (obj as Record<string, unknown>)[property];
+  }
+  return undefined;
 };
 
-const extractAssetType = (t: IncomingTrade) => {
-  // user said "simple strings" for asset_type - but handle object too
-  return safeString(t.asset_type ?? t.assetType ?? "Other", "Other");
+const extractStrategyName = (t: unknown) => {
+  const strategy = getProperty(t, 'strategy');
+  return safeString(strategy ?? "Other");
 };
 
-const extractTags = (t: IncomingTrade) => {
-  const tg = t.tags;
-  if (!Array.isArray(tg) || tg.length === 0) return ["Other"];
-  return tg.map((item) => safeString(item, "Other"));
+const extractAssetType = (t: unknown) => {
+  const assetType = getProperty(t, 'asset_type');
+  return safeString(assetType ?? "Other");
 };
 
-const groupBy = (trades: IncomingTrade[], getter: (t: IncomingTrade) => string): GroupRow[] => {
+const extractTags = (t: unknown) => {
+  const tags = getProperty(t, 'tags');
+  if (!Array.isArray(tags) || tags.length === 0) return ["Other"];
+  return tags.map((item) => safeString(item, "Other"));
+};
+
+const extractPnlAmount = (t: unknown): number => {
+  const pnl = getProperty(t, 'pnl_amount');
+  return typeof pnl === 'number' ? pnl : 0;
+};
+
+const groupBy = (trades: unknown[], getter: (t: unknown) => string): GroupRow[] => {
   const map: Record<string, { profit: number; loss: number; count: number; wins: number }> = {};
 
   for (const t of trades || []) {
     const name = getter(t) || "Other";
-    const pnl = typeof t.pnl_amount === "number" ? t.pnl_amount : 0;
+    const pnl = extractPnlAmount(t);
     if (!map[name]) map[name] = { profit: 0, loss: 0, count: 0, wins: 0 };
 
     map[name].count += 1;
@@ -124,7 +130,7 @@ const PerformanceAnalytics: React.FC<Props> = ({ trades }) => {
   const tagData = useMemo(() => {
     const map: Record<string, { profit: number; loss: number; count: number; wins: number }> = {};
     for (const t of trades ?? []) {
-      const pnl = typeof t.pnl_amount === "number" ? t.pnl_amount : 0;
+      const pnl = extractPnlAmount(t);
       const tags = extractTags(t);
       for (const tg of tags) {
         const name = tg || "Other";
