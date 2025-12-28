@@ -1,6 +1,6 @@
 // DashboardLayout.tsx - Updated to support editing a trade
 import { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar"; 
 import NewTradePopup from "../../components/NewTradePopup/NewTradePopup";
 import Styles from './DashboardLayout.module.css';
@@ -17,7 +17,6 @@ const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth < COLLAPSE_BREAKPOINT);
   const [showNewTradePopup, setShowNewTradePopup] = useState(false);
   const [tradeToEdit, setTradeToEdit] = useState<Trade | null>(null); // New state to hold trade data for editing
-  const location = useLocation();
   const [showImportPopup, setShowImportPopup] = useState(false);
 
 
@@ -100,7 +99,6 @@ const handleCloseImportPopup = () => {
                   <RiDashboardLine className={Styles.dashboardIcon} /> 
                   <p className={Styles.dashboard}>Dashboard</p> 
                 </div>
-                <p className={Styles.url}>{location.pathname}</p>
               </div>
             </div>
             
