@@ -51,9 +51,24 @@ const Footer = () => {
         </div>
       </div>
       <div className={Styles.footerBottom}>
-        <p className={Styles.footerBottomText}>© {new Date().getFullYear()} Tradejournalai. All rights reserved.</p>
-        <p className={`${Styles.footerBottomText} ${Styles.version}`}>Version 1.0.1</p>
-      </div>
+      <p className={Styles.footerBottomText}>
+        © {new Date().getFullYear()} Tradejournalai. All rights reserved. 
+        <span style={{ marginLeft: "8px" }}>
+          | Developed by {" "}
+          <a 
+            href="https://ayush.jeearchive.in" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ fontWeight: 600, textDecoration: "underline", color: 'var(--hero-title)' }}
+          >
+            Ayush Singh
+          </a>
+        </span>
+      </p>
+
+      <p className={`${Styles.footerBottomText} ${Styles.version}`}>Version 1.0.1</p>
+    </div>
+
     </div>
   )
 }
