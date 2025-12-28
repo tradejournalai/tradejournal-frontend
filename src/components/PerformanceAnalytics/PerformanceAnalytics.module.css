@@ -32,9 +32,6 @@
   transition: all 0.22s ease;
 }
 
-.analyticsTab:hover {
-  background: var(--dashboard-buttons-hover);
-}
 
 .activeTab {
   background: var(--dashboard-green-color);
@@ -146,4 +143,15 @@
   font-size: 12px;
   padding: 3px 6px;
   border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .analyticsChartBox {
+    padding: 10px;
+  }
+  .rightInner{
+    gap: 5px;
+    flex-direction: column;
+    height: 500px;
+  }
 }
