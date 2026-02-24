@@ -56,7 +56,6 @@ const PricingPage = () => {
   const annualPayable = useMemo(() => calculateDiscountedPrice(annualOriginal), [discountUnlocked, discountPercent]);
 
 const handlePaymentSuccess = async (
-  paymentId: string,
   planType: "monthly" | "annual",
   eventId: string
 ): Promise<void> => {
