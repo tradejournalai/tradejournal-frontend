@@ -1,7 +1,6 @@
 import Styles from "./PricingPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import PaymentButton from "../../components/PaymentButton/PaymentButton";
-import { upgradeUserToPro } from "../../services/subscriptionService";
 import { useAuth } from "../../hooks/useAuth";
 import { hasActivePro } from "../../utils/subscriptionUtils";
 import { useCustomToast } from "../../hooks/useCustomToast";
@@ -9,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import PricingNav from "../../components/PricingNav/PricingNav";
 import { getReferralMe } from "../../services/referralService";
 import type { ReferralMeResponse } from "../../services/referralService";
+import { trackEvent } from "../../utils/metaPixel";
 
 const PricingPage = () => {
   const { user, updateUserData, token } = useAuth();
@@ -18,6 +18,12 @@ const PricingPage = () => {
 
   // ✅ Referral discount info
   const [referralInfo, setReferralInfo] = useState<ReferralMeResponse | null>(null);
+
+  useEffect(() => {
+  trackEvent("ViewContent", {
+    content_name: "Pricing Page",
+  });
+}, []);
 
   useEffect(() => {
     const run = async () => {
@@ -49,46 +55,42 @@ const PricingPage = () => {
   const monthlyPayable = useMemo(() => calculateDiscountedPrice(monthlyOriginal), [discountUnlocked, discountPercent]);
   const annualPayable = useMemo(() => calculateDiscountedPrice(annualOriginal), [discountUnlocked, discountPercent]);
 
-  const handlePaymentSuccess = async (paymentId: string, planType: "monthly" | "annual"): Promise<void> => {
-    console.log("Payment successful:", paymentId, planType);
-    setProcessingPlan(planType);
+const handlePaymentSuccess = async (
+  paymentId: string,
+  planType: "monthly" | "annual",
+  eventId: string
+): Promise<void> => {
+  if (!user) return;
 
-    if (!user) {
-      toast.showErrorToast("❌ User not found. Please login again.");
-      setProcessingPlan(null);
-      return;
-    }
+  const payableAmount =
+    planType === "annual" ? annualPayable : monthlyPayable;
 
-    try {
-      const duration = planType === "annual" ? "1 year" : "1 month";
-      toast.showInfoToast(`🔄 Payment successful! Upgrading your ${duration} subscription...`);
+  // ✅ Browser Purchase
+  trackEvent(
+    "Purchase",
+    {
+      value: payableAmount,
+      currency: "INR",
+      content_name: planType,
+    },
+    eventId
+  );
 
-      const response = await upgradeUserToPro(user.id, paymentId, planType);
+  // ✅ Browser Subscribe
+  trackEvent(
+    "Subscribe",
+    {
+      value: payableAmount,
+      currency: "INR",
+      content_name: planType,
+    },
+    eventId
+  );
 
-      if (response.success && response.data) {
-        updateUserData(response.data);
+  updateUserData(user);
 
-        const successMessage =
-          planType === "annual"
-            ? "🎉 Welcome to TradeJournalAI Pro Annual! You now have 1 year of premium access."
-            : "🎉 Welcome to TradeJournalAI Pro Monthly! You now have 1 month of premium access.";
-
-        toast.showSuccessToast(successMessage);
-
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 2000);
-      } else {
-        throw new Error(response.message || "Failed to upgrade subscription");
-      }
-    } catch (error) {
-      console.error("Subscription upgrade failed:", error);
-      toast.handleApiError(error);
-      toast.showWarningToast(`Please save this Payment ID for support: ${paymentId}`);
-    } finally {
-      setProcessingPlan(null);
-    }
-  };
+  navigate("/dashboard");
+};
 
   const handlePaymentFailure = (error: string): void => {
     console.error("Payment failed:", error);
@@ -211,7 +213,13 @@ const PricingPage = () => {
                   amount={monthlyPayable}
                   userEmail={user.email}
                   planType="monthly"
-                  onSuccess={(paymentId, plan) => handlePaymentSuccess(paymentId, plan as "monthly" | "annual")}
+                  onSuccess={(paymentId, plan, eventId) =>
+                    handlePaymentSuccess(
+                      paymentId,
+                      plan as "monthly" | "annual",
+                      eventId
+                    )
+                  }
                   onFailure={handlePaymentFailure}
                   disabled={processingPlan !== null}
                 />
@@ -313,7 +321,13 @@ const PricingPage = () => {
                   amount={annualPayable}
                   userEmail={user.email}
                   planType="annual"
-                  onSuccess={(paymentId, plan) => handlePaymentSuccess(paymentId, plan as "monthly" | "annual")}
+                  onSuccess={(paymentId, plan, eventId) =>
+                    handlePaymentSuccess(
+                      paymentId,
+                      plan as "monthly" | "annual",
+                      eventId
+                    )
+                  }
                   onFailure={handlePaymentFailure}
                   disabled={processingPlan !== null}
                 />

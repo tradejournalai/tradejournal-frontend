@@ -7,6 +7,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useCustomToast } from "../../hooks/useCustomToast";
 import { useGoogleAuth } from "../../hooks/useGoogleAuth";
 import { applyReferralCode } from "../../services/referralService";
+import { trackEvent } from "../../utils/metaPixel";
 
 interface FormData {
   username: string;
@@ -28,6 +29,12 @@ const Register = () => {
     password: "",
     coupon: "",
   });
+
+  trackEvent("CompleteRegistration", {
+  method: "Email",
+});
+
+trackEvent("StartTrial");
 
   const [validationErrors, setValidationErrors] = useState<Partial<FormData>>({});
 

@@ -7,6 +7,7 @@ import Styles from './Login.module.css';
 import { useAuth } from '../../hooks/useAuth';
 import { useCustomToast } from '../../hooks/useCustomToast';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth'; // Add this import
+import { trackEvent } from '../../utils/metaPixel';
 
 interface FormData {
   email: string;
@@ -24,6 +25,8 @@ const Login = () => {
     password: '',
   });
   const [validationErrors, setValidationErrors] = useState<Partial<FormData>>({});
+
+  trackEvent("Login");
 
   const validateForm = (): boolean => {
     const errors: Partial<FormData> = {};

@@ -24,10 +24,13 @@ import PrivacyPolicy from "./pages/LegalPages/PrivacyPolicy.tsx";
 import Disclaimer from "./pages/LegalPages/Disclaimer.tsx";
 import Help from "./pages/Help/Help.tsx";
 import AboutUs from "./pages/LegalPages/AboutUs.tsx";
+import MetaPageTracker from "./components/MetaPageTracker.tsx";
 
 
 const App = () => (
   <Router>
+    <MetaPageTracker />  
+
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<RequireGuest><Login /></RequireGuest>} />
@@ -42,6 +45,7 @@ const App = () => (
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/disclaimer" element={<Disclaimer />} />
       <Route path="/about-us" element={<AboutUs />} />
+
       <Route
         path="/dashboard"
         element={<RequirePro><DashboardLayout /></RequirePro>}
@@ -55,8 +59,6 @@ const App = () => (
         <Route path="risk" element={<Risk />} />
         <Route path="settings" element={<Settings />} />
         <Route path="help" element={<Help />} />
-
-        {/* Add more nested subroutes as needed */}
       </Route>
     </Routes>
   </Router>
