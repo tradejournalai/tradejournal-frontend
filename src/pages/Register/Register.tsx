@@ -1,40 +1,38 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTag } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import Styles from "./Register.module.css";
 import { useAuth } from "../../hooks/useAuth";
 import { useCustomToast } from "../../hooks/useCustomToast";
 import { useGoogleAuth } from "../../hooks/useGoogleAuth";
-import { applyReferralCode } from "../../services/referralService";
 import { trackEvent } from "../../utils/metaPixel";
 
 interface FormData {
   username: string;
   email: string;
   password: string;
-  coupon: string;
 }
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register, loading, token } = useAuth();
-  const { showSuccessToast, showErrorToast, showInfoToast, showWarningToast } = useCustomToast();
+  const { register, loading } = useAuth();
+  const { showSuccessToast, showErrorToast } = useCustomToast();
   const { initiateGoogleSignup } = useGoogleAuth();
 
   const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState<FormData>({
     username: "",
     email: "",
     password: "",
-    coupon: "",
   });
 
   trackEvent("CompleteRegistration", {
-  method: "Email",
-});
+    method: "Email",
+  });
 
-trackEvent("StartTrial");
+  trackEvent("StartTrial");
 
   const [validationErrors, setValidationErrors] = useState<Partial<FormData>>({});
 
@@ -68,32 +66,9 @@ trackEvent("StartTrial");
     if (!validateForm()) return;
 
     try {
-      // ✅ 1) Register user (this also logs in and saves token/user)
       await register(formData.username, formData.email, formData.password);
 
       showSuccessToast("Registration successful! Welcome!");
-
-      // ✅ 2) Apply coupon if provided (optional)
-      // token from context may not be immediately updated due to state update cycle
-      // so we apply coupon after redirect OR using localStorage token
-      const coupon = formData.coupon.trim();
-      if (coupon) {
-        const savedToken = localStorage.getItem("token");
-        const useToken = savedToken || token;
-
-        if (useToken) {
-          try {
-            showInfoToast("Applying coupon...");
-            const res = await applyReferralCode(useToken, coupon);
-            showSuccessToast(res.message || "🎉 Coupon applied!");
-          } catch (err) {
-            const msg = err instanceof Error ? err.message : "Failed to apply coupon";
-            showWarningToast(msg);
-          }
-        } else {
-          showWarningToast("Coupon will be available to apply later in Profile.");
-        }
-      }
 
       navigate("/dashboard");
     } catch (err) {
@@ -136,6 +111,7 @@ trackEvent("StartTrial");
         <h1 className={Styles.registerTitle}>Create Account</h1>
 
         <form onSubmit={handleSubmit} className={Styles.registerForm} noValidate>
+
           {/* Username Field */}
           <div className={Styles.formGroup}>
             <div className={`${Styles.inputContainer} ${validationErrors.username ? Styles.inputError : ""}`}>
@@ -150,7 +126,9 @@ trackEvent("StartTrial");
                 disabled={loading}
               />
             </div>
-            {validationErrors.username && <span className={Styles.validationError}>{validationErrors.username}</span>}
+            {validationErrors.username && (
+              <span className={Styles.validationError}>{validationErrors.username}</span>
+            )}
           </div>
 
           {/* Email Field */}
@@ -167,7 +145,9 @@ trackEvent("StartTrial");
                 disabled={loading}
               />
             </div>
-            {validationErrors.email && <span className={Styles.validationError}>{validationErrors.email}</span>}
+            {validationErrors.email && (
+              <span className={Styles.validationError}>{validationErrors.email}</span>
+            )}
           </div>
 
           {/* Password Field */}
@@ -193,23 +173,9 @@ trackEvent("StartTrial");
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-            {validationErrors.password && <span className={Styles.validationError}>{validationErrors.password}</span>}
-          </div>
-
-          {/* ✅ Coupon Field */}
-          <div className={Styles.formGroup}>
-            <div className={Styles.inputContainer}>
-              <FaTag className={Styles.inputIcon} />
-              <input
-                type="text"
-                name="coupon"
-                placeholder="Coupon Code (optional)"
-                className={Styles.formInput}
-                value={formData.coupon}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </div>
+            {validationErrors.password && (
+              <span className={Styles.validationError}>{validationErrors.password}</span>
+            )}
           </div>
 
           <button type="submit" className={Styles.registerButton} disabled={loading}>
@@ -220,7 +186,12 @@ trackEvent("StartTrial");
             <span>OR</span>
           </div>
 
-          <button type="button" className={Styles.googleButton} onClick={handleGoogleSignup} disabled={loading}>
+          <button
+            type="button"
+            className={Styles.googleButton}
+            onClick={handleGoogleSignup}
+            disabled={loading}
+          >
             <FcGoogle className={Styles.googleIcon} />
             Sign up with Google
           </button>
@@ -229,7 +200,11 @@ trackEvent("StartTrial");
             <span>
               Already have an account? <Link to="/login">Sign in</Link>
             </span>
-            <button type="button" onClick={() => navigate("/")} className={Styles.goBackButton}>
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className={Styles.goBackButton}
+            >
               Back to Home
             </button>
           </div>

@@ -4,95 +4,64 @@ import PaymentButton from "../../components/PaymentButton/PaymentButton";
 import { useAuth } from "../../hooks/useAuth";
 import { hasActivePro } from "../../utils/subscriptionUtils";
 import { useCustomToast } from "../../hooks/useCustomToast";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import PricingNav from "../../components/PricingNav/PricingNav";
-import { getReferralMe } from "../../services/referralService";
-import type { ReferralMeResponse } from "../../services/referralService";
 import { trackEvent } from "../../utils/metaPixel";
 
 const PricingPage = () => {
-  const { user, updateUserData, token } = useAuth();
+  const { user, updateUserData } = useAuth();
   const navigate = useNavigate();
   const toast = useCustomToast();
   const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 
-  // ✅ Referral discount info
-  const [referralInfo, setReferralInfo] = useState<ReferralMeResponse | null>(null);
-
   useEffect(() => {
-  trackEvent("ViewContent", {
-    content_name: "Pricing Page",
-  });
-}, []);
-
-  useEffect(() => {
-    const run = async () => {
-      try {
-        const savedToken = token || localStorage.getItem("token");
-        if (!savedToken) return;
-
-        const data = await getReferralMe(savedToken);
-        setReferralInfo(data);
-      } catch (err) {
-        console.error("Failed to fetch referral info:", err);
-      }
-    };
-    run();
-  }, [token]);
-
-  // ✅ Discount info
-  const discountUnlocked = referralInfo?.referral?.discountUnlocked === true;
-  const discountPercent = referralInfo?.referral?.discountPercent ?? 0;
-
-  const calculateDiscountedPrice = (price: number): number => {
-    if (!discountUnlocked || discountPercent <= 0) return price;
-    return Math.round((price * (100 - discountPercent)) / 100);
-  };
+    trackEvent("ViewContent", {
+      content_name: "Pricing Page",
+    });
+  }, []);
 
   const monthlyOriginal = 99;
   const annualOriginal = 799;
 
-  const monthlyPayable = useMemo(() => calculateDiscountedPrice(monthlyOriginal), [discountUnlocked, discountPercent]);
-  const annualPayable = useMemo(() => calculateDiscountedPrice(annualOriginal), [discountUnlocked, discountPercent]);
+  const monthlyPayable = monthlyOriginal;
+  const annualPayable = annualOriginal;
 
-const handlePaymentSuccess = async (
-  paymentId: string,
-  planType: "monthly" | "annual",
-  eventId: string
-): Promise<void> => {
-  if (!user) return;
+  const handlePaymentSuccess = async (
+    paymentId: string,
+    planType: "monthly" | "annual",
+    eventId: string
+  ): Promise<void> => {
+    if (!user) return;
 
-  const payableAmount =
-    planType === "annual" ? annualPayable : monthlyPayable;
+    const payableAmount =
+      planType === "annual" ? annualPayable : monthlyPayable;
 
-  console.log("paymentId: ", paymentId);
+    console.log("paymentId: ", paymentId);
 
-  // ✅ Browser Purchase
-  trackEvent(
-    "Purchase",
-    {
-      value: payableAmount,
-      currency: "INR",
-      content_name: planType,
-    },
-    eventId
-  );
+    trackEvent(
+      "Purchase",
+      {
+        value: payableAmount,
+        currency: "INR",
+        content_name: planType,
+      },
+      eventId
+    );
 
-  // ✅ Browser Subscribe
-  trackEvent(
-    "Subscribe",
-    {
-      value: payableAmount,
-      currency: "INR",
-      content_name: planType,
-    },
-    eventId
-  );
+    trackEvent(
+      "Subscribe",
+      {
+        value: payableAmount,
+        currency: "INR",
+        content_name: planType,
+      },
+      eventId
+    );
 
-  updateUserData(user);
+    updateUserData(user);
 
-  navigate("/dashboard");
-};
+    navigate("/dashboard");
+  };
 
   const handlePaymentFailure = (error: string): void => {
     console.error("Payment failed:", error);
@@ -131,25 +100,6 @@ const handlePaymentSuccess = async (
       </div>
 
       <div id="pricing" className={Styles.pricingHero}>
-        {/* ✅ Coupon banner */}
-        {discountUnlocked && discountPercent > 0 && (
-          <div
-            style={{
-              margin: "16px auto",
-              maxWidth: "900px",
-              background: "rgba(72, 64, 187, 0.15)",
-              border: "1px solid rgba(72, 64, 187, 0.35)",
-              padding: "12px 16px",
-              borderRadius: "12px",
-              color: "#fff",
-              fontWeight: 600,
-              textAlign: "center",
-            }}
-          >
-            🎉 Coupon Applied — You are getting {discountPercent}% OFF on subscription plans!
-          </div>
-        )}
-
         <div className={Styles.pricingCards}>
           {/* Monthly Plan Card */}
           <div className={Styles.pricingCard}>
@@ -158,37 +108,10 @@ const handlePaymentSuccess = async (
               <p>Perfect for serious traders</p>
             </div>
 
-            {/* ✅ Price Section */}
             <div className={Styles.price}>
-              {discountUnlocked && discountPercent > 0 ? (
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
-                    <span style={{ fontSize: "18px", textDecoration: "line-through", opacity: 0.6 }}>
-                      ₹{monthlyOriginal}
-                    </span>
-                    <span className={Styles.amount}>₹{monthlyPayable}</span>
-                    <span className={Styles.period}>/month</span>
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "13px",
-                      padding: "6px 10px",
-                      borderRadius: "999px",
-                      background: "rgba(0,0,0,0.2)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                    }}
-                  >
-                    ✅ {discountPercent}% OFF via coupon
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <span className={Styles.currency}>₹</span>
-                  <span className={Styles.amount}>{monthlyOriginal}</span>
-                  <span className={Styles.period}>/month</span>
-                </>
-              )}
+              <span className={Styles.currency}>₹</span>
+              <span className={Styles.amount}>{monthlyOriginal}</span>
+              <span className={Styles.period}>/month</span>
             </div>
 
             <div className={Styles.trialNotice}>Start with 24 hours FREE trial!</div>
@@ -259,37 +182,12 @@ const handlePaymentSuccess = async (
               <p>Best value - save over 30%</p>
             </div>
 
-            {/* ✅ Price Section */}
             <div className={Styles.priceContainer}>
-              {discountUnlocked && discountPercent > 0 ? (
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
-                    <span style={{ fontSize: "18px", textDecoration: "line-through", opacity: 0.6 }}>
-                      ₹{annualOriginal}
-                    </span>
-                    <span className={Styles.amount}>₹{annualPayable}</span>
-                    <span className={Styles.period}>/year</span>
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "13px",
-                      padding: "6px 10px",
-                      borderRadius: "999px",
-                      background: "rgba(0,0,0,0.2)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                    }}
-                  >
-                    ✅ {discountPercent}% OFF via coupon
-                  </div>
-                </div>
-              ) : (
-                <div className={Styles.price}>
-                  <span className={Styles.currency}>₹</span>
-                  <span className={Styles.amount}>{annualOriginal}</span>
-                  <span className={Styles.period}>/ year</span>
-                </div>
-              )}
+              <div className={Styles.price}>
+                <span className={Styles.currency}>₹</span>
+                <span className={Styles.amount}>{annualOriginal}</span>
+                <span className={Styles.period}>/ year</span>
+              </div>
 
               <div className={Styles.discountSection}>
                 <div className={Styles.originalPrice}>
@@ -358,6 +256,7 @@ const handlePaymentSuccess = async (
               </div>
             )}
           </div>
+
         </div>
       </div>
     </div>

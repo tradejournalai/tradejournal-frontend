@@ -20,18 +20,11 @@ interface OrderResponse {
   currency: string;
   keyId: string;
   planType?: string;
-
-  // ✅ discount info from backend
-  originalAmount?: number;
-  payableAmount?: number;
-  discountApplied?: boolean;
-  discountPercent?: number;
-
   message?: string;
 }
 
 interface PaymentData {
-  amount: number; // fallback only (backend decides actual)
+  amount: number;
   userId: string;
   userEmail: string;
   planType: "monthly" | "annual";
@@ -39,7 +32,6 @@ interface PaymentData {
   onFailure?: (error: string) => void;
 }
 
-// Window interface extension for Razorpay
 declare global {
   interface Window {
     Razorpay?: {
@@ -115,7 +107,6 @@ export const useRazorpay = () => {
         return;
       }
 
-      // ✅ Create order (backend will apply discount automatically)
       const orderResponse = await fetch(`${import.meta.env.VITE_API_URL}/payments/create-order`, {
         method: "POST",
         headers: {
@@ -129,11 +120,6 @@ export const useRazorpay = () => {
 
       if (!orderResponse.ok || !orderData.success) {
         throw new Error(orderData.message || "Failed to create order");
-      }
-
-      // ✅ show discount toast (optional)
-      if (orderData.discountApplied) {
-        toast.showSuccessToast(`🎉 Coupon Applied! You got ${orderData.discountPercent || 10}% off.`);
       }
 
       const options: RazorpayOptions = {

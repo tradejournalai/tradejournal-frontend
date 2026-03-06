@@ -90,12 +90,10 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   const handlePayment = async () => {
     if (disabled || isLoading) return;
 
-    // ✅ Generate SINGLE eventId for deduplication
     const eventId = `purchase_${Date.now()}_${Math.random()
       .toString(36)
       .substring(2, 9)}`;
 
-    // Track InitiateCheckout
     trackEvent(
       "InitiateCheckout",
       {
@@ -156,7 +154,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
                 ...response,
                 userId: user?.id,
                 planType,
-                eventId, // ✅ SAME eventId sent to backend
+                eventId,
               }),
             }
           );
