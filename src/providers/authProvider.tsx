@@ -1,5 +1,4 @@
-// providers/AuthProvider.tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import type { User } from '../types/AuthTypes';
@@ -11,52 +10,15 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  // Default to true so RequirePro knows we are checking the session on boot
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState<string | null>(null);
 
-  // Restore on page load
-  useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (parseError) {
-        console.error('Error parsing saved user:', parseError);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-      }
-    }
-  }, []);
-
-  // Helper: persist user/token
-  const persistAuth = (user: User, token: string): void => {
-    setUser(user);
-    setToken(token);
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('token', token);
-  };
-
-  // ADD: Update user data (for subscription updates)
-  const updateUserData = (userData: User): void => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-    console.log('✅ User data updated:', {
-      plan: userData.subscription.plan,
-      expiresAt: userData.subscription.expiresAt
-    });
-  };
-
-  // SET: Token for Google OAuth callback
-  const setAuthToken = (newToken: string): void => {
-    setToken(newToken);
-    localStorage.setItem('token', newToken);
-    fetchUserProfile(newToken);
-  };
-
-  // FETCH: User profile after Google OAuth
-  const fetchUserProfile = async (authToken: string): Promise<void> => {
+  /**
+   * FETCH: User profile
+   * Wrapped in useCallback so it can be safely used in useEffect
+   */
+  const fetchUserProfile = useCallback(async (authToken: string): Promise<void> => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
         method: 'GET',
@@ -71,21 +33,70 @@ export function AuthProvider({ children }: AuthProviderProps) {
       
       const userData: User = data.user || data.data;
       
-      // Check if user has Pro subscription
-      if (userData.subscription?.plan === 'pro') {
-        console.log('🎉 User has Pro subscription!');
-        console.log('Expires at:', userData.subscription.expiresAt);
-      }
-      
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
+      console.log('👤 Profile fetched successfully:', userData.subscription.plan);
     } catch (err) {
       console.error('Failed to fetch user profile:', err);
       logout();
     }
+  }, []);
+
+  /**
+   * RESTORE SESSION: Runs on page load
+   * Handles the case where user is missing from storage (after payment redirect)
+   */
+  useEffect(() => {
+    const initializeAuth = async () => {
+      const savedToken = localStorage.getItem('token');
+      const savedUser = localStorage.getItem('user');
+
+      if (savedToken) {
+        setToken(savedToken);
+        
+        if (savedUser) {
+          try {
+            setUser(JSON.parse(savedUser));
+          } catch (parseError) {
+            console.error('Error parsing saved user:', parseError);
+            localStorage.removeItem('user');
+            // If parse fails, try to fetch fresh before giving up
+            await fetchUserProfile(savedToken);
+          }
+        } else {
+          // ✅ FIX: Token exists but user doesn't (triggered by payment success)
+          // Fetch fresh data from DB to get the new 'Pro' status
+          await fetchUserProfile(savedToken);
+        }
+      }
+      
+      // Verification finished
+      setLoading(false);
+    };
+
+    initializeAuth();
+  }, [fetchUserProfile]);
+
+  const persistAuth = (userData: User, userToken: string): void => {
+    setUser(userData);
+    setToken(userToken);
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('token', userToken);
   };
 
-  // Registration
+  const updateUserData = (userData: User): void => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+    console.log('✅ Local User State Updated:', userData.subscription.plan);
+  };
+
+  const setAuthToken = (newToken: string): void => {
+    setToken(newToken);
+    localStorage.setItem('token', newToken);
+    setLoading(true);
+    fetchUserProfile(newToken).finally(() => setLoading(false));
+  };
+
   const register = async (username: string, email: string, password: string): Promise<void> => {
     setLoading(true);
     setError(null);
@@ -107,7 +118,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  // Login
   const login = async (email: string, password: string): Promise<void> => {
     setLoading(true);
     setError(null);
@@ -129,7 +139,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  // Logout (clears everywhere)
   const logout = (): void => {
     setUser(null);
     setToken(null);
@@ -158,7 +167,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  // Change username
   const changeUsername = async (newUsername: string): Promise<void> => {
     if (!token) throw new Error("Not authenticated");
     setLoading(true); 
@@ -185,7 +193,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  // Change password
   const changePassword = async (currentPassword: string, newPassword: string): Promise<void> => {
     if (!token) throw new Error("Not authenticated");
     setLoading(true); 
@@ -210,7 +217,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  // Context value with proper typing
   const value = { 
     user, 
     token, 
@@ -223,7 +229,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     changePassword, 
     changeUsername,
     setAuthToken,
-    updateUserData  // Add this line
+    updateUserData
   };
   
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
