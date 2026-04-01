@@ -33,6 +33,7 @@ const PricingCard = () => {
     setProcessingPlan(null);
 
     toast.showSuccessToast("🎉 Subscription Activated! Redirecting...");
+    localStorage.removeItem("user");
     
     setTimeout(() => {
       window.location.href = "/dashboard";

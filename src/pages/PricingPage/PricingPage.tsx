@@ -49,6 +49,7 @@ const PricingPage = () => {
     trackEvent("Subscribe", { value: payableAmount, currency: "INR", content_name: planType }, eventId);
 
     toast.showSuccessToast("🎉 Subscription Activated! Redirecting to Dashboard...");
+    localStorage.removeItem("user");
 
     // Hard redirect is the most reliable way to ensure the RequirePro guard 
     // fetches fresh 'Pro' data from the database.
