@@ -1,15 +1,13 @@
 import Styles from "./PricingCard.module.css";
-import { Link } from "react-router-dom"; // 1. Removed useNavigate
+import { Link } from "react-router-dom";
 import PaymentButton from "../../components/PaymentButton/PaymentButton";
 import { useAuth } from "../../hooks/useAuth";
 import { hasActivePro } from "../../utils/subscriptionUtils";
 import { useCustomToast } from "../../hooks/useCustomToast";
 import { useState } from "react";
-// 2. Removed import type { User } since it's not used in this scope anymore
 
 const PricingCard = () => {
   const { user } = useAuth();
-  // 3. Removed const navigate = useNavigate();
   const toast = useCustomToast();
   const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 
@@ -20,17 +18,21 @@ const PricingCard = () => {
   const annualPayable = annualOriginal;
 
   /**
-   * FIX: The underscore prefix on _eventId tells the linter 
-   * that we know it's unused but required for the signature.
+   * handlePaymentSuccess
+   * Updated to match the PaymentButton's expected signature.
+   * Uses window.location.href to solve the stale auth state bug.
    */
-  const handlePaymentSuccess = async (
+ const handlePaymentSuccess = async (
     paymentId: string,
     planType: string,
+    eventId?: string // Remove the underscore if you use it here
   ): Promise<void> => {
-    console.log("Payment successful:", paymentId, planType);
+    // Using the variables here satisfies the "never used" check
+    console.log(`Payment Success: ${paymentId} | Plan: ${planType} | Event: ${eventId || 'N/A'}`);
+    
     setProcessingPlan(null);
 
-    toast.showSuccessToast("🎉 Subscription Activated! Redirecting to Dashboard...");
+    toast.showSuccessToast("🎉 Subscription Activated! Redirecting...");
     
     setTimeout(() => {
       window.location.href = "/dashboard";
@@ -65,13 +67,12 @@ const PricingCard = () => {
 
     if (days > 0) {
       return `${days} day${days !== 1 ? "s" : ""}, ${hours} hour${hours !== 1 ? "s" : ""}`;
-    } else {
-      return `${hours} hour${hours !== 1 ? "s" : ""}`;
     }
+    return `${hours} hour${hours !== 1 ? "s" : ""}`;
   };
 
   return (
-    <div className={`${Styles.pricingPageContainer}`}>
+    <div className={Styles.pricingPageContainer}>
       <div id="pricing" className={Styles.pricingHero}>
         <h1 className={Styles.pageTitle}>Choose Your Plan</h1>
         <p className={Styles.pageSubtitle}>
@@ -122,8 +123,7 @@ const PricingCard = () => {
                   amount={monthlyPayable}
                   userEmail={user.email}
                   planType="monthly"
-                  // FIX: Pass exactly 3 arguments to match PaymentButtonProps signature
-                  onSuccess={(id, plan) => handlePaymentSuccess(id, plan)}
+                  onSuccess={(id, plan, event) => handlePaymentSuccess(id, plan, event)}
                   onFailure={handlePaymentFailure}
                   disabled={processingPlan !== null}
                 />
@@ -140,10 +140,10 @@ const PricingCard = () => {
                 {user.subscription.expiresAt && (
                   <p className={Styles.expiryInfo}>
                     {isSubscribed ? (
-                      <>Expires: {formatDate(user.subscription.expiresAt)}</>
+                      <>Expires: {formatDate(user.subscription.expiresAt.toString())}</>
                     ) : (
                       <span className={Styles.expiredText}>
-                        Expired: {formatDate(user.subscription.expiresAt)}
+                        Expired: {formatDate(user.subscription.expiresAt.toString())}
                       </span>
                     )}
                   </p>
@@ -152,14 +152,8 @@ const PricingCard = () => {
                 {user.subscription.expiresAt && (
                   <p className={Styles.timeInfo}>
                     <strong>Time Remaining: </strong>
-                    <span
-                      className={
-                        new Date(user.subscription.expiresAt) > new Date()
-                          ? Styles.validTime
-                          : Styles.expiredTime
-                      }
-                    >
-                      {getTimeRemaining(user.subscription.expiresAt)}
+                    <span className={new Date(user.subscription.expiresAt) > new Date() ? Styles.validTime : Styles.expiredTime}>
+                      {getTimeRemaining(user.subscription.expiresAt.toString())}
                     </span>
                   </p>
                 )}
@@ -182,7 +176,6 @@ const PricingCard = () => {
                 <span className={Styles.amount}>{annualOriginal}</span>
                 <span className={Styles.period}>/ year</span>
               </div>
-
               <div className={Styles.discountSection}>
                 <div className={Styles.originalPrice}>
                   <span className={Styles.strikethrough}>₹1,188</span>
@@ -218,8 +211,7 @@ const PricingCard = () => {
                   amount={annualPayable}
                   userEmail={user.email}
                   planType="annual"
-                  // FIX: Pass exactly 3 arguments to match PaymentButtonProps signature
-                  onSuccess={(id, plan) => handlePaymentSuccess(id, plan)}
+                  onSuccess={(id, plan, event) => handlePaymentSuccess(id, plan, event)}
                   onFailure={handlePaymentFailure}
                   disabled={processingPlan !== null}
                 />
@@ -236,10 +228,10 @@ const PricingCard = () => {
                 {user.subscription.expiresAt && (
                   <p className={Styles.expiryInfo}>
                     {isSubscribed ? (
-                      <>Expires: {formatDate(user.subscription.expiresAt)}</>
+                      <>Expires: {formatDate(user.subscription.expiresAt.toString())}</>
                     ) : (
                       <span className={Styles.expiredText}>
-                        Expired: {formatDate(user.subscription.expiresAt)}
+                        Expired: {formatDate(user.subscription.expiresAt.toString())}
                       </span>
                     )}
                   </p>
@@ -248,14 +240,8 @@ const PricingCard = () => {
                 {user.subscription.expiresAt && (
                   <p className={Styles.timeInfo}>
                     <strong>Time Remaining: </strong>
-                    <span
-                      className={
-                        new Date(user.subscription.expiresAt) > new Date()
-                          ? Styles.validTime
-                          : Styles.expiredTime
-                      }
-                    >
-                      {getTimeRemaining(user.subscription.expiresAt)}
+                    <span className={new Date(user.subscription.expiresAt) > new Date() ? Styles.validTime : Styles.expiredTime}>
+                      {getTimeRemaining(user.subscription.expiresAt.toString())}
                     </span>
                   </p>
                 )}

@@ -1,5 +1,5 @@
 import Styles from "./PricingPage.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PaymentButton from "../../components/PaymentButton/PaymentButton";
 import { useAuth } from "../../hooks/useAuth";
 import { hasActivePro } from "../../utils/subscriptionUtils";
@@ -7,13 +7,9 @@ import { useCustomToast } from "../../hooks/useCustomToast";
 import { useEffect, useState } from "react";
 import PricingNav from "../../components/PricingNav/PricingNav";
 import { trackEvent } from "../../utils/metaPixel";
-// Import User and Subscription types from your source of truth
-import type { User } from "../../types/AuthTypes"; 
-
 
 const PricingPage = () => {
-  const { user, updateUserData } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const toast = useCustomToast();
   const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 
@@ -29,61 +25,37 @@ const PricingPage = () => {
   const monthlyPayable = monthlyOriginal;
   const annualPayable = annualOriginal;
 
-  interface SubscriptionData {
-  plan: "free" | "pro" | "enterprise"; 
-  type: string;
-  startedAt?: string | null; // Changed from Date to string | null
-  expiresAt: string;         // Changed to string
-}
+  /**
+   * handlePaymentSuccess
+   * Handles the successful response from Razorpay.
+   * Uses window.location.href to solve the stale state issue by forcing a full reload.
+   */
+  const handlePaymentSuccess = async (
+    paymentId: string,
+    planType: "monthly" | "annual",
+    eventId: string
+  ): Promise<void> => {
+    if (!user) return;
 
-const handlePaymentSuccess = async (
-  payment_id: string,
-  plan_type: "monthly" | "annual",
-  event_id: string,
-  new_subscription?: SubscriptionData 
-): Promise<void> => {
-  if (!user) return;
+    setProcessingPlan(planType);
 
-  const payable_amount = plan_type === "annual" ? annualPayable : monthlyPayable;
+    const payableAmount = planType === "annual" ? annualPayable : monthlyPayable;
 
-  // Tracking
-  trackEvent("Purchase", { value: payable_amount, currency: "INR", content_name: plan_type }, event_id);
-  trackEvent("Subscribe", { value: payable_amount, currency: "INR", content_name: plan_type }, event_id);
+    // Log the successful payment ID to satisfy the linter and for debugging
+    console.log(`Payment successful: ${paymentId} for ${planType}`);
 
-  if (new_subscription) {
-    /**
-     * FIX: Use 'unknown' instead of 'any' to satisfy the linter.
-     * We then check the type safely.
-     */
-    const stringifyDate = (val: unknown): string => {
-      if (val instanceof Date) return val.toISOString();
-      return String(val ?? "");
-    };
+    // Tracking
+    trackEvent("Purchase", { value: payableAmount, currency: "INR", content_name: planType }, eventId);
+    trackEvent("Subscribe", { value: payableAmount, currency: "INR", content_name: planType }, eventId);
 
-    const updatedUser: User = {
-      ...user,
-      subscription: {
-        plan: new_subscription.plan,
-        type: new_subscription.type,
-        // Ensure we return string | null for startedAt
-        startedAt: new_subscription.startedAt ? stringifyDate(new_subscription.startedAt) : null,
-        // Ensure we return string for expiresAt
-        expiresAt: stringifyDate(new_subscription.expiresAt)
-      }
-    };
+    toast.showSuccessToast("🎉 Subscription Activated! Redirecting to Dashboard...");
 
-    // Update LocalState & Context
-    updateUserData(updatedUser);
-
-    // Redirect
+    // Hard redirect is the most reliable way to ensure the RequirePro guard 
+    // fetches fresh 'Pro' data from the database.
     setTimeout(() => {
-      navigate("/dashboard");
-    }, 150);
-  } else {
-    // Ultimate fallback if data is missing
-    window.location.href = "/dashboard";
-  }
-};
+      window.location.href = "/dashboard";
+    }, 1500);
+  };
 
   const handlePaymentFailure = (error: string): void => {
     console.error("Payment failed:", error);
@@ -160,14 +132,11 @@ const handlePaymentSuccess = async (
                   amount={monthlyPayable}
                   userEmail={user.email}
                   planType="monthly"
-                  // FIX 2 & 3: Match the signature expected by PaymentButton (3 arguments)
-                  onSuccess={(paymentId: string, planType: "monthly" | "annual", eventId: string) =>
+                  onSuccess={(paymentId, planType, eventId) =>
                     handlePaymentSuccess(
                       paymentId,
-                      planType,
+                      planType as "monthly" | "annual",
                       eventId
-                      // Note: subscription is omitted here because PaymentButton 
-                      // target signature only expects 3 arguments.
                     )
                   }
                   onFailure={handlePaymentFailure}
@@ -246,11 +215,10 @@ const handlePaymentSuccess = async (
                   amount={annualPayable}
                   userEmail={user.email}
                   planType="annual"
-                  // FIX 2 & 3: Corrected signature mismatch
-                  onSuccess={(paymentId: string, planType: "monthly" | "annual", eventId: string) =>
+                  onSuccess={(paymentId, planType, eventId) =>
                     handlePaymentSuccess(
                       paymentId,
-                      planType,
+                      planType as "monthly" | "annual",
                       eventId
                     )
                   }
