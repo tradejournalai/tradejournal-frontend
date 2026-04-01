@@ -7,6 +7,9 @@ import { useCustomToast } from "../../hooks/useCustomToast";
 import { useEffect, useState } from "react";
 import PricingNav from "../../components/PricingNav/PricingNav";
 import { trackEvent } from "../../utils/metaPixel";
+// Import User and Subscription types from your source of truth
+import type { User } from "../../types/AuthTypes"; 
+
 
 const PricingPage = () => {
   const { user, updateUserData } = useAuth();
@@ -26,42 +29,61 @@ const PricingPage = () => {
   const monthlyPayable = monthlyOriginal;
   const annualPayable = annualOriginal;
 
-  const handlePaymentSuccess = async (
-    paymentId: string,
-    planType: "monthly" | "annual",
-    eventId: string
-  ): Promise<void> => {
-    if (!user) return;
+  interface SubscriptionData {
+  plan: "free" | "pro" | "enterprise"; 
+  type: string;
+  startedAt?: string | null; // Changed from Date to string | null
+  expiresAt: string;         // Changed to string
+}
 
-    const payableAmount =
-      planType === "annual" ? annualPayable : monthlyPayable;
+const handlePaymentSuccess = async (
+  payment_id: string,
+  plan_type: "monthly" | "annual",
+  event_id: string,
+  new_subscription?: SubscriptionData 
+): Promise<void> => {
+  if (!user) return;
 
-    console.log("paymentId: ", paymentId);
+  const payable_amount = plan_type === "annual" ? annualPayable : monthlyPayable;
 
-    trackEvent(
-      "Purchase",
-      {
-        value: payableAmount,
-        currency: "INR",
-        content_name: planType,
-      },
-      eventId
-    );
+  // Tracking
+  trackEvent("Purchase", { value: payable_amount, currency: "INR", content_name: plan_type }, event_id);
+  trackEvent("Subscribe", { value: payable_amount, currency: "INR", content_name: plan_type }, event_id);
 
-    trackEvent(
-      "Subscribe",
-      {
-        value: payableAmount,
-        currency: "INR",
-        content_name: planType,
-      },
-      eventId
-    );
+  if (new_subscription) {
+    /**
+     * FIX: Use 'unknown' instead of 'any' to satisfy the linter.
+     * We then check the type safely.
+     */
+    const stringifyDate = (val: unknown): string => {
+      if (val instanceof Date) return val.toISOString();
+      return String(val ?? "");
+    };
 
-    updateUserData(user);
+    const updatedUser: User = {
+      ...user,
+      subscription: {
+        plan: new_subscription.plan,
+        type: new_subscription.type,
+        // Ensure we return string | null for startedAt
+        startedAt: new_subscription.startedAt ? stringifyDate(new_subscription.startedAt) : null,
+        // Ensure we return string for expiresAt
+        expiresAt: stringifyDate(new_subscription.expiresAt)
+      }
+    };
 
-    navigate("/dashboard");
-  };
+    // Update LocalState & Context
+    updateUserData(updatedUser);
+
+    // Redirect
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 150);
+  } else {
+    // Ultimate fallback if data is missing
+    window.location.href = "/dashboard";
+  }
+};
 
   const handlePaymentFailure = (error: string): void => {
     console.error("Payment failed:", error);
@@ -138,11 +160,14 @@ const PricingPage = () => {
                   amount={monthlyPayable}
                   userEmail={user.email}
                   planType="monthly"
-                  onSuccess={(paymentId, plan, eventId) =>
+                  // FIX 2 & 3: Match the signature expected by PaymentButton (3 arguments)
+                  onSuccess={(paymentId: string, planType: "monthly" | "annual", eventId: string) =>
                     handlePaymentSuccess(
                       paymentId,
-                      plan as "monthly" | "annual",
+                      planType,
                       eventId
+                      // Note: subscription is omitted here because PaymentButton 
+                      // target signature only expects 3 arguments.
                     )
                   }
                   onFailure={handlePaymentFailure}
@@ -159,14 +184,14 @@ const PricingPage = () => {
                 </p>
                 {user.subscription.expiresAt && (
                   <p className={Styles.expiryInfo}>
-                    {isSubscribed ? <>Expires: {formatDate(user.subscription.expiresAt)}</> : <span className={Styles.expiredText}>Expired: {formatDate(user.subscription.expiresAt)}</span>}
+                    {isSubscribed ? <>Expires: {formatDate(user.subscription.expiresAt.toString())}</> : <span className={Styles.expiredText}>Expired: {formatDate(user.subscription.expiresAt.toString())}</span>}
                   </p>
                 )}
                 {user.subscription.expiresAt && (
                   <p className={Styles.timeInfo}>
                     <strong>Time Remaining: </strong>
                     <span className={new Date(user.subscription.expiresAt) > new Date() ? Styles.validTime : Styles.expiredTime}>
-                      {getTimeRemaining(user.subscription.expiresAt)}
+                      {getTimeRemaining(user.subscription.expiresAt.toString())}
                     </span>
                   </p>
                 )}
@@ -221,10 +246,11 @@ const PricingPage = () => {
                   amount={annualPayable}
                   userEmail={user.email}
                   planType="annual"
-                  onSuccess={(paymentId, plan, eventId) =>
+                  // FIX 2 & 3: Corrected signature mismatch
+                  onSuccess={(paymentId: string, planType: "monthly" | "annual", eventId: string) =>
                     handlePaymentSuccess(
                       paymentId,
-                      plan as "monthly" | "annual",
+                      planType,
                       eventId
                     )
                   }
@@ -242,21 +268,20 @@ const PricingPage = () => {
                 </p>
                 {user.subscription.expiresAt && (
                   <p className={Styles.expiryInfo}>
-                    {isSubscribed ? <>Expires: {formatDate(user.subscription.expiresAt)}</> : <span className={Styles.expiredText}>Expired: {formatDate(user.subscription.expiresAt)}</span>}
+                    {isSubscribed ? <>Expires: {formatDate(user.subscription.expiresAt.toString())}</> : <span className={Styles.expiredText}>Expired: {formatDate(user.subscription.expiresAt.toString())}</span>}
                   </p>
                 )}
                 {user.subscription.expiresAt && (
                   <p className={Styles.timeInfo}>
                     <strong>Time Remaining: </strong>
                     <span className={new Date(user.subscription.expiresAt) > new Date() ? Styles.validTime : Styles.expiredTime}>
-                      {getTimeRemaining(user.subscription.expiresAt)}
+                      {getTimeRemaining(user.subscription.expiresAt.toString())}
                     </span>
                   </p>
                 )}
               </div>
             )}
           </div>
-
         </div>
       </div>
     </div>

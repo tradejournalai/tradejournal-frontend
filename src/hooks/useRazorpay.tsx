@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { useCustomToast } from "./useCustomToast";
 
+/**
+ * Define the Subscription structure to match your Backend & PricingPage
+ */
+interface Subscription {
+  plan: string;
+  type: string;
+  startedAt?: string | Date;
+  expiresAt: string | Date;
+}
+
 interface PaymentResponse {
   razorpay_payment_id: string;
   razorpay_order_id: string;
@@ -11,12 +21,13 @@ interface VerifyResponse {
   success: boolean;
   message?: string;
   paymentId?: string;
+  subscription?: Subscription; // ✅ FIXED: Replaced 'any' with Subscription interface
 }
 
 interface OrderResponse {
   success: boolean;
   orderId: string;
-  amount: number; // paise
+  amount: number; 
   currency: string;
   keyId: string;
   planType?: string;
@@ -28,16 +39,18 @@ interface PaymentData {
   userId: string;
   userEmail: string;
   planType: "monthly" | "annual";
-  onSuccess?: (paymentId: string, planType: string) => void;
+  // ✅ FIXED: Replaced 'any' with Subscription interface
+  onSuccess?: (paymentId: string, planType: string, subscription?: Subscription) => void; 
   onFailure?: (error: string) => void;
 }
 
+/**
+ * Improved global Window typing to avoid 'as any' when calling constructor
+ */
 declare global {
   interface Window {
-    Razorpay?: {
-      new (options: RazorpayOptions): {
-        open(): void;
-      };
+    Razorpay?: new (options: RazorpayOptions) => {
+      open(): void;
     };
   }
 }
@@ -73,7 +86,6 @@ export const useRazorpay = () => {
         resolve(true);
         return;
       }
-
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.onload = () => resolve(true);
@@ -95,14 +107,14 @@ export const useRazorpay = () => {
 
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
-        toast.showErrorToast("Payment gateway failed to load. Please check your internet connection.");
+        toast.showErrorToast("Payment gateway failed to load.");
         onFailure?.("Payment gateway failed to load");
         return;
       }
 
       const token = localStorage.getItem("token");
       if (!token) {
-        toast.showErrorToast("You are not logged in. Please login again.");
+        toast.showErrorToast("You are not logged in.");
         onFailure?.("Not authenticated");
         return;
       }
@@ -127,10 +139,7 @@ export const useRazorpay = () => {
         amount: orderData.amount,
         currency: orderData.currency || "INR",
         name: "TradeJournalAI",
-        description:
-          planType === "annual"
-            ? "Pro Annual Subscription - Unlock advanced trading analytics"
-            : "Pro Monthly Subscription - Unlock advanced trading analytics",
+        description: `Pro ${planType === "annual" ? "Annual" : "Monthly"} Subscription`,
         order_id: orderData.orderId,
         image: "/logo.png",
 
@@ -158,22 +167,18 @@ export const useRazorpay = () => {
             }
 
             if (verifyData.success) {
-              const message =
-                planType === "annual"
-                  ? "🎉 Annual payment successful! Welcome to TradeJournalAI Pro!"
-                  : "🎉 Monthly payment successful! Welcome to TradeJournalAI Pro!";
-
+              const message = `🎉 Payment successful! Welcome to Pro!`;
               toast.showSuccessToast(message);
-              onSuccess?.(response.razorpay_payment_id, planType);
+              
+              // ✅ SUCCESS: Now passing typed subscription data back
+              onSuccess?.(response.razorpay_payment_id, planType, verifyData.subscription);
             } else {
-              toast.showErrorToast("Payment verification failed. Please contact support.");
+              toast.showErrorToast("Payment verification failed.");
               onFailure?.(verifyData.message || "Payment verification failed");
             }
           } catch (error) {
             console.error("Payment verification error:", error);
-            const errorMessage = error instanceof Error ? error.message : "Payment verification failed";
-            toast.showErrorToast("Payment verification failed. Please contact support.");
-            onFailure?.(errorMessage);
+            onFailure?.("Payment verification failed");
           }
         },
 
@@ -182,9 +187,7 @@ export const useRazorpay = () => {
           contact: "9999999999",
         },
 
-        theme: {
-          color: "#4840BB",
-        },
+        theme: { color: "#4840BB" },
 
         modal: {
           ondismiss: () => {
@@ -195,16 +198,15 @@ export const useRazorpay = () => {
       };
 
       if (!window.Razorpay) {
-        throw new Error("Razorpay SDK not loaded");
+        throw new Error("Razorpay SDK not found");
       }
 
+      // ✅ FIXED: Using typed constructor instead of 'as any'
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error) {
       console.error("Payment initiation error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Failed to initiate payment";
-      toast.showErrorToast("Failed to initiate payment. Please try again.");
-      onFailure?.(errorMessage);
+      onFailure?.("Failed to initiate payment");
     } finally {
       setLoading(false);
     }
